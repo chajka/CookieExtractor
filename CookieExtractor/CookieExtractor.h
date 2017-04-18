@@ -15,5 +15,5 @@ FOUNDATION_EXPORT double CookieExtractorVersionNumber;
 FOUNDATION_EXPORT const unsigned char CookieExtractorVersionString[];
 
 // In this header, you should import all the public headers of your framework using statements like #import <CookieExtractor/PublicHeader.h>
-
+#import "ChromeCookieExtractor.h"
 

@@ -20,6 +20,10 @@
 		C609D24E1EA65ED000B2EBBE /* ChromeCookieDecryptor.m in Sources */ = {isa = PBXBuildFile; fileRef = C609D24C1EA65ED000B2EBBE /* ChromeCookieDecryptor.m */; };
 		C609D24F1EA65ED000B2EBBE /* ChromeCookieDecryptor.m in Sources */ = {isa = PBXBuildFile; fileRef = C609D24C1EA65ED000B2EBBE /* ChromeCookieDecryptor.m */; };
 		C609D2501EA65ED000B2EBBE /* ChromeCookieDecryptor.h in Headers */ = {isa = PBXBuildFile; fileRef = C609D24D1EA65ED000B2EBBE /* ChromeCookieDecryptor.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C609D2641EA6690D00B2EBBE /* CookieParser.m in Sources */ = {isa = PBXBuildFile; fileRef = C609D2601EA6690D00B2EBBE /* CookieParser.m */; };
+		C609D2651EA6690D00B2EBBE /* CookieParser.h in Headers */ = {isa = PBXBuildFile; fileRef = C609D2611EA6690D00B2EBBE /* CookieParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C609D2661EA6690D00B2EBBE /* BinaryReader.m in Sources */ = {isa = PBXBuildFile; fileRef = C609D2621EA6690D00B2EBBE /* BinaryReader.m */; };
+		C609D2671EA6690D00B2EBBE /* BinaryReader.h in Headers */ = {isa = PBXBuildFile; fileRef = C609D2631EA6690D00B2EBBE /* BinaryReader.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +52,10 @@
 		C609D2321EA6532900B2EBBE /* ChromeCookieExtractorTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChromeCookieExtractorTests.m; sourceTree = "<group>"; };
 		C609D24C1EA65ED000B2EBBE /* ChromeCookieDecryptor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ChromeCookieDecryptor.m; path = ChromeCookieDecryptor/ChromeCookieDecryptor.m; sourceTree = "<group>"; };
 		C609D24D1EA65ED000B2EBBE /* ChromeCookieDecryptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ChromeCookieDecryptor.h; path = ChromeCookieDecryptor/ChromeCookieDecryptor.h; sourceTree = "<group>"; };
+		C609D2601EA6690D00B2EBBE /* CookieParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CookieParser.m; path = BinaryCookieRader/CookieParser.m; sourceTree = "<group>"; };
+		C609D2611EA6690D00B2EBBE /* CookieParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CookieParser.h; path = BinaryCookieRader/CookieParser.h; sourceTree = "<group>"; };
+		C609D2621EA6690D00B2EBBE /* BinaryReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BinaryReader.m; path = BinaryCookieRader/BinaryReader.m; sourceTree = "<group>"; };
+		C609D2631EA6690D00B2EBBE /* BinaryReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BinaryReader.h; path = BinaryCookieRader/BinaryReader.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,6 +103,7 @@
 			children = (
 				C609D1FB1EA644FA00B2EBBE /* CookieExtractor.h */,
 				C609D1FC1EA644FA00B2EBBE /* Info.plist */,
+				C609D25F1EA6685100B2EBBE /* BinaryCookieReader */,
 				C609D22A1EA649FA00B2EBBE /* ChromeCookieExtractor */,
 			);
 			path = CookieExtractor;
@@ -155,6 +164,17 @@
 			name = ChromeCookieExtractor;
 			sourceTree = "<group>";
 		};
+		C609D25F1EA6685100B2EBBE /* BinaryCookieReader */ = {
+			isa = PBXGroup;
+			children = (
+				C609D2611EA6690D00B2EBBE /* CookieParser.h */,
+				C609D2601EA6690D00B2EBBE /* CookieParser.m */,
+				C609D2631EA6690D00B2EBBE /* BinaryReader.h */,
+				C609D2621EA6690D00B2EBBE /* BinaryReader.m */,
+			);
+			name = BinaryCookieReader;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -166,7 +186,9 @@
 				C609D21B1EA648AD00B2EBBE /* sqlite3.h in Headers */,
 				C609D2501EA65ED000B2EBBE /* ChromeCookieDecryptor.h in Headers */,
 				C609D2241EA6493100B2EBBE /* FMDatabase.h in Headers */,
+				C609D2671EA6690D00B2EBBE /* BinaryReader.h in Headers */,
 				C609D2091EA644FA00B2EBBE /* CookieExtractor.h in Headers */,
+				C609D2651EA6690D00B2EBBE /* CookieParser.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -274,6 +296,8 @@
 				C609D2211EA6493100B2EBBE /* FMResultSet.m in Sources */,
 				C609D21A1EA648AD00B2EBBE /* sqlite3.c in Sources */,
 				C609D24E1EA65ED000B2EBBE /* ChromeCookieDecryptor.m in Sources */,
+				C609D2641EA6690D00B2EBBE /* CookieParser.m in Sources */,
+				C609D2661EA6690D00B2EBBE /* BinaryReader.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

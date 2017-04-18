@@ -4,12 +4,12 @@ Framework for chrome cookie extract & decrypto for Mac.
 
 ## Version
 
-Current version is 0.1.
+Current version is 0.2.
 
-## Useage
+## Usage - 1 Decrypt Chrome Cookie
 
 * Import
-	* `#import #import <CookieExtractor/ChromeCookieDecryptor.h>
+	* `#import <CookieExtractor/ChromeCookieDecryptor.h>
 * Class
 	* `ChromeCookieDecryptor`
 * Initialize (1)
@@ -38,3 +38,17 @@ Current version is 0.1.
 		* throw : decrypto engine error.
 
 notice path is both fullpath. and tilde(~) prefixed user’s home relative path.
+
+## Usage - 2 Parse and Convert Safari Cookie ##
+
+* Import
+	* `#import <CookieExtractor/CookieParser.h>
+* Class
+	* `CookieParser`
+* Initialize
+	* `- (nonnull instancetype) initWithData:(NSData * _Nonnull)data`
+		* data : contents of Safari’s .binarycookies file.
+		* return : instance of Safari Cookie parser.
+* Get Cookie
+	* `-(NSArray<NSHTTPCookie *> *) paseCookies`
+		* return : array of parsed NSHTTPCookie instance.

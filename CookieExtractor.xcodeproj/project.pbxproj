@@ -8,8 +8,18 @@
 
 /* Begin PBXBuildFile section */
 		C609D2021EA644FA00B2EBBE /* CookieExtractor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C609D1F81EA644FA00B2EBBE /* CookieExtractor.framework */; };
-		C609D2071EA644FA00B2EBBE /* CookieExtractorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C609D2061EA644FA00B2EBBE /* CookieExtractorTests.m */; };
 		C609D2091EA644FA00B2EBBE /* CookieExtractor.h in Headers */ = {isa = PBXBuildFile; fileRef = C609D1FB1EA644FA00B2EBBE /* CookieExtractor.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C609D2151EA647E400B2EBBE /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C609D2141EA647E400B2EBBE /* Security.framework */; settings = {ATTRIBUTES = (Required, ); }; };
+		C609D21A1EA648AD00B2EBBE /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = C609D2181EA648AD00B2EBBE /* sqlite3.c */; settings = {COMPILER_FLAGS = "-Xanalyzer -analyzer-disable-all-checks -w -fno-objc-arc -std=c99"; }; };
+		C609D21B1EA648AD00B2EBBE /* sqlite3.h in Headers */ = {isa = PBXBuildFile; fileRef = C609D2191EA648AD00B2EBBE /* sqlite3.h */; };
+		C609D2211EA6493100B2EBBE /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = C609D21D1EA6493100B2EBBE /* FMResultSet.m */; };
+		C609D2221EA6493100B2EBBE /* FMResultSet.h in Headers */ = {isa = PBXBuildFile; fileRef = C609D21E1EA6493100B2EBBE /* FMResultSet.h */; };
+		C609D2231EA6493100B2EBBE /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = C609D21F1EA6493100B2EBBE /* FMDatabase.m */; };
+		C609D2241EA6493100B2EBBE /* FMDatabase.h in Headers */ = {isa = PBXBuildFile; fileRef = C609D2201EA6493100B2EBBE /* FMDatabase.h */; };
+		C609D2331EA6532900B2EBBE /* ChromeCookieExtractorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C609D2321EA6532900B2EBBE /* ChromeCookieExtractorTests.m */; };
+		C609D24E1EA65ED000B2EBBE /* ChromeCookieDecryptor.m in Sources */ = {isa = PBXBuildFile; fileRef = C609D24C1EA65ED000B2EBBE /* ChromeCookieDecryptor.m */; };
+		C609D24F1EA65ED000B2EBBE /* ChromeCookieDecryptor.m in Sources */ = {isa = PBXBuildFile; fileRef = C609D24C1EA65ED000B2EBBE /* ChromeCookieDecryptor.m */; };
+		C609D2501EA65ED000B2EBBE /* ChromeCookieDecryptor.h in Headers */ = {isa = PBXBuildFile; fileRef = C609D24D1EA65ED000B2EBBE /* ChromeCookieDecryptor.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -27,8 +37,17 @@
 		C609D1FB1EA644FA00B2EBBE /* CookieExtractor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CookieExtractor.h; sourceTree = "<group>"; };
 		C609D1FC1EA644FA00B2EBBE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C609D2011EA644FA00B2EBBE /* CookieExtractorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CookieExtractorTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		C609D2061EA644FA00B2EBBE /* CookieExtractorTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CookieExtractorTests.m; sourceTree = "<group>"; };
 		C609D2081EA644FA00B2EBBE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C609D2141EA647E400B2EBBE /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		C609D2181EA648AD00B2EBBE /* sqlite3.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = sqlite3.c; path = External/SQLite3/sqlite3.c; sourceTree = "<group>"; };
+		C609D2191EA648AD00B2EBBE /* sqlite3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sqlite3.h; path = External/SQLite3/sqlite3.h; sourceTree = "<group>"; };
+		C609D21D1EA6493100B2EBBE /* FMResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FMResultSet.m; path = External/fmdb/src/fmdb/FMResultSet.m; sourceTree = "<group>"; };
+		C609D21E1EA6493100B2EBBE /* FMResultSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FMResultSet.h; path = External/fmdb/src/fmdb/FMResultSet.h; sourceTree = "<group>"; };
+		C609D21F1EA6493100B2EBBE /* FMDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FMDatabase.m; path = External/fmdb/src/fmdb/FMDatabase.m; sourceTree = "<group>"; };
+		C609D2201EA6493100B2EBBE /* FMDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FMDatabase.h; path = External/fmdb/src/fmdb/FMDatabase.h; sourceTree = "<group>"; };
+		C609D2321EA6532900B2EBBE /* ChromeCookieExtractorTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChromeCookieExtractorTests.m; sourceTree = "<group>"; };
+		C609D24C1EA65ED000B2EBBE /* ChromeCookieDecryptor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ChromeCookieDecryptor.m; path = ChromeCookieDecryptor/ChromeCookieDecryptor.m; sourceTree = "<group>"; };
+		C609D24D1EA65ED000B2EBBE /* ChromeCookieDecryptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ChromeCookieDecryptor.h; path = ChromeCookieDecryptor/ChromeCookieDecryptor.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -36,6 +55,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C609D2151EA647E400B2EBBE /* Security.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -54,8 +74,10 @@
 			isa = PBXGroup;
 			children = (
 				C609D1FA1EA644FA00B2EBBE /* CookieExtractor */,
+				C609D2161EA647FA00B2EBBE /* External */,
 				C609D2051EA644FA00B2EBBE /* CookieExtractorTests */,
 				C609D1F91EA644FA00B2EBBE /* Products */,
+				C609D2131EA647E400B2EBBE /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -73,6 +95,7 @@
 			children = (
 				C609D1FB1EA644FA00B2EBBE /* CookieExtractor.h */,
 				C609D1FC1EA644FA00B2EBBE /* Info.plist */,
+				C609D22A1EA649FA00B2EBBE /* ChromeCookieExtractor */,
 			);
 			path = CookieExtractor;
 			sourceTree = "<group>";
@@ -80,10 +103,56 @@
 		C609D2051EA644FA00B2EBBE /* CookieExtractorTests */ = {
 			isa = PBXGroup;
 			children = (
-				C609D2061EA644FA00B2EBBE /* CookieExtractorTests.m */,
 				C609D2081EA644FA00B2EBBE /* Info.plist */,
+				C609D2321EA6532900B2EBBE /* ChromeCookieExtractorTests.m */,
 			);
 			path = CookieExtractorTests;
+			sourceTree = "<group>";
+		};
+		C609D2131EA647E400B2EBBE /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C609D2141EA647E400B2EBBE /* Security.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		C609D2161EA647FA00B2EBBE /* External */ = {
+			isa = PBXGroup;
+			children = (
+				C609D2171EA6488400B2EBBE /* SQLite3 */,
+				C609D21C1EA6490A00B2EBBE /* fmdb */,
+			);
+			name = External;
+			sourceTree = "<group>";
+		};
+		C609D2171EA6488400B2EBBE /* SQLite3 */ = {
+			isa = PBXGroup;
+			children = (
+				C609D2191EA648AD00B2EBBE /* sqlite3.h */,
+				C609D2181EA648AD00B2EBBE /* sqlite3.c */,
+			);
+			name = SQLite3;
+			sourceTree = "<group>";
+		};
+		C609D21C1EA6490A00B2EBBE /* fmdb */ = {
+			isa = PBXGroup;
+			children = (
+				C609D2201EA6493100B2EBBE /* FMDatabase.h */,
+				C609D21F1EA6493100B2EBBE /* FMDatabase.m */,
+				C609D21E1EA6493100B2EBBE /* FMResultSet.h */,
+				C609D21D1EA6493100B2EBBE /* FMResultSet.m */,
+			);
+			name = fmdb;
+			sourceTree = "<group>";
+		};
+		C609D22A1EA649FA00B2EBBE /* ChromeCookieExtractor */ = {
+			isa = PBXGroup;
+			children = (
+				C609D24D1EA65ED000B2EBBE /* ChromeCookieDecryptor.h */,
+				C609D24C1EA65ED000B2EBBE /* ChromeCookieDecryptor.m */,
+			);
+			name = ChromeCookieExtractor;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -93,6 +162,10 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C609D2221EA6493100B2EBBE /* FMResultSet.h in Headers */,
+				C609D21B1EA648AD00B2EBBE /* sqlite3.h in Headers */,
+				C609D2501EA65ED000B2EBBE /* ChromeCookieDecryptor.h in Headers */,
+				C609D2241EA6493100B2EBBE /* FMDatabase.h in Headers */,
 				C609D2091EA644FA00B2EBBE /* CookieExtractor.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -197,6 +270,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C609D2231EA6493100B2EBBE /* FMDatabase.m in Sources */,
+				C609D2211EA6493100B2EBBE /* FMResultSet.m in Sources */,
+				C609D21A1EA648AD00B2EBBE /* sqlite3.c in Sources */,
+				C609D24E1EA65ED000B2EBBE /* ChromeCookieDecryptor.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -204,7 +281,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C609D2071EA644FA00B2EBBE /* CookieExtractorTests.m in Sources */,
+				C609D24F1EA65ED000B2EBBE /* ChromeCookieDecryptor.m in Sources */,
+				C609D2331EA6532900B2EBBE /* ChromeCookieExtractorTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -319,7 +397,7 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
-				DEFINES_MODULE = YES;
+				DEFINES_MODULE = NO;
 				DEVELOPMENT_TEAM = G9SC48NK42;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -339,7 +417,7 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
-				DEFINES_MODULE = YES;
+				DEFINES_MODULE = NO;
 				DEVELOPMENT_TEAM = G9SC48NK42;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -357,6 +435,7 @@
 		C609D2101EA644FA00B2EBBE /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = G9SC48NK42;
 				INFOPLIST_FILE = CookieExtractorTests/Info.plist;
@@ -369,6 +448,7 @@
 		C609D2111EA644FA00B2EBBE /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = G9SC48NK42;
 				INFOPLIST_FILE = CookieExtractorTests/Info.plist;
@@ -397,6 +477,7 @@
 				C609D20E1EA644FA00B2EBBE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		C609D20F1EA644FA00B2EBBE /* Build configuration list for PBXNativeTarget "CookieExtractorTests" */ = {
 			isa = XCConfigurationList;
@@ -405,6 +486,7 @@
 				C609D2111EA644FA00B2EBBE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

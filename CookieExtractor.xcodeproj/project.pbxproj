@@ -23,7 +23,7 @@
 		C609D2641EA6690D00B2EBBE /* CookieParser.m in Sources */ = {isa = PBXBuildFile; fileRef = C609D2601EA6690D00B2EBBE /* CookieParser.m */; };
 		C609D2651EA6690D00B2EBBE /* CookieParser.h in Headers */ = {isa = PBXBuildFile; fileRef = C609D2611EA6690D00B2EBBE /* CookieParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C609D2661EA6690D00B2EBBE /* BinaryReader.m in Sources */ = {isa = PBXBuildFile; fileRef = C609D2621EA6690D00B2EBBE /* BinaryReader.m */; };
-		C609D2671EA6690D00B2EBBE /* BinaryReader.h in Headers */ = {isa = PBXBuildFile; fileRef = C609D2631EA6690D00B2EBBE /* BinaryReader.h */; };
+		C609D2671EA6690D00B2EBBE /* BinaryReader.h in Headers */ = {isa = PBXBuildFile; fileRef = C609D2631EA6690D00B2EBBE /* BinaryReader.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */

@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "binaryreader.h"
+#import "BinaryReader.h"
 
 @interface CookieParser : NSObject {
 	NSData					*cookieData;

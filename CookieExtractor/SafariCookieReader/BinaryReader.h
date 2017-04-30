@@ -1,9 +1,9 @@
 //
-//  CookieSlicer.h
-//  binarycookies
+//  BinaryReader.h
+//  Charleston
 //
-//  Created by Чайка on 3/22/16.
-//  Copyright © 2016 Instrumentality of Mankind. All rights reserved.
+//  Created by Чайка on 4/21/17.
+//  Copyright © 2017 Instrumentality of Mankind. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -38,3 +38,15 @@
 @interface PageSlicer : BinaryReader
 - (nonnull NSArray<CookiePage *> *)slicePage;
 @end
+
+@interface NSData (String)
+- (nonnull NSString *) toString:(NSStringEncoding)encoding;
+@end
+
+@implementation NSData (String)
+- (nonnull NSString *) toString:(NSStringEncoding)encoding
+{
+	return [[NSString alloc] initWithData:self encoding:encoding];
+}// end - (nonnull NSString *) toString:(NSStringEncoding)encoding
+@end
+

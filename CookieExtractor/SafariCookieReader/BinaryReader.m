@@ -1,26 +1,15 @@
 //
-//  CookieSlicer.m
-//  binarycookies
+//  BinaryReader.m
+//  Charleston
 //
-//  Created by Чайка on 3/22/16.
-//  Copyright © 2016 Instrumentality of Mankind. All rights reserved.
+//  Created by Чайка on 4/21/17.
+//  Copyright © 2017 Instrumentality of Mankind. All rights reserved.
 //
 
 #import "BinaryReader.h"
 
 NSUInteger static SingleByteLength =									4;
 NSUInteger static DoubleByteLength =									8;
-
-@interface NSData (String)
-- (nonnull NSString *) toString:(NSStringEncoding)encoding;
-@end
-
-@implementation NSData (String)
-- (nonnull NSString *) toString:(NSStringEncoding)encoding
-{
-	return [[NSString alloc] initWithData:self encoding:encoding];
-}// end - (nonnull NSString *) toString:(NSStringEncoding)encoding
-@end
 
 @interface BinaryReader ()
 - (SInt64) readDoubleBigEndian:(NSUInteger)offset;
@@ -217,10 +206,10 @@ NSUInteger static DoubleByteLength =									8;
 	SInt32 pageHeader = [self readIntBigEndian];
 	if (pageHeader != 0x0100)
 		@throw [NSException exceptionWithName:@"Bad page Header" reason:nil userInfo:nil];
-		// Number of Cookies
+	// Number of Cookies
 	SInt32 numberOfCookies = [self readIntLittleEndian];
 	NSMutableArray<BinaryCookie *> *binaryCookies = [NSMutableArray array];
-		// each cookies
+	// each cookies
 	SInt32 offset = 0;
 	SInt32 length = 0;
 	SInt32 currentCookie = 0;
@@ -230,7 +219,7 @@ NSUInteger static DoubleByteLength =									8;
 		NSData *subdata = [self slice:offset length:length];
 		[binaryCookies addObject:[[BinaryCookie alloc] initWithData:subdata]];
 	}// end for each cookie pages
-
+	
 	return [NSArray arrayWithArray:binaryCookies];
 }// end - (nonnull NSArray<BinaryCookie *> *)parsePage
 
@@ -243,7 +232,7 @@ NSUInteger static DoubleByteLength =									8;
 	NSString *signature = [[self readSlice:4] toString:NSUTF8StringEncoding];
 	if ([signature isEqualToString:@"cook"]) {
 		NSUInteger numberOfPages = [self readIntBigEndian];
-			// get page sizes
+		// get page sizes
 		NSMutableArray<NSNumber *> *pageSizes = [NSMutableArray arrayWithCapacity:numberOfPages];
 		NSUInteger currentPage = 0;
 		NSUInteger currentPageSize = 0;
@@ -251,7 +240,7 @@ NSUInteger static DoubleByteLength =									8;
 			currentPageSize = [self readIntBigEndian];
 			pageSizes[currentPage] = [NSNumber numberWithInteger:currentPageSize];
 		}// end for each page size
-			// slice pages
+		// slice pages
 		NSMutableArray<CookiePage *> *cookiePages = [NSMutableArray arrayWithCapacity:numberOfPages];
 		NSData *pageData = nil;
 		for (NSNumber *pageSize in pageSizes) {
@@ -259,7 +248,7 @@ NSUInteger static DoubleByteLength =									8;
 			pageData = [self readSlice:currentPageSize];
 			[cookiePages addObject:[[CookiePage alloc] initWithData:pageData]];
 		}// end foreach slice page
-
+		
 		return [NSArray arrayWithArray:cookiePages];
 	} else {
 		@throw [NSException exceptionWithName:@"Bad Cookie Header" reason:nil userInfo:nil];

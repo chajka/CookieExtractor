@@ -32,23 +32,50 @@ Current version is 0.2.
 		* throw : Initialize error.
 		* throw : Wrong path error.
 * Get cookie
-	* `- (nullable NSArray<NSHTTPCookie *> *) cookiesForDomain:(NSString * _Nonnull)domain`
-		* domain : domain for search cookies
-		* return : array of NSHTTPCookie
-		* throw : decrypto engine error.
+	* `- (nullable NSArray<NSHTTPCookie *> *)parseCookiesForMatchDomain:(NSString * _Nonnull)domain`
+		* domain : reqeust domain name completely matched.
+		* return : array of parsed NSHTTPCookie instance.
+	* `- (nullable NSArray<NSHTTPCookie *> *)parseCookiesForLikeDomain:(NSString * _Nonnull)domain`
+		* domain : reqeust domain name part of domain.
+		* return : array of parsed NSHTTPCookie instance.
 
 notice path is both fullpath. and tilde(~) prefixed user’s home relative path.
 
 ## Usage - 2 Parse and Convert Safari Cookie ##
 
 * Import
-	* `#import <CookieExtractor/CookieParser.h>
+	* `#import <CookieExtractor/SafariCookieReader.h>
 * Class
-	* `CookieParser`
+	* `SafariCookieReader`
 * Initialize
-	* `- (nonnull instancetype) initWithData:(NSData * _Nonnull)data`
-		* data : contents of Safari’s .binarycookies file.
+	* `- (nonnull instancetype) init`
+		* return : instance of Safari Cookie parser for current safari cookies.
+	* `- (nonnull instancetype) init`
+		* data : contents of Safari’s .binarycookies file (for read other place cookies).
 		* return : instance of Safari Cookie parser.
 * Get Cookie
 	* `-(NSArray<NSHTTPCookie *> *) paseCookies`
+		* return : array of parsed NSHTTPCookie instance.
+	* `- (nullable NSArray<NSHTTPCookie *> *)parseCookiesForMatchDomain:(NSString * _Nonnull)domain`
+		* domain : reqeust domain name completely matched.
+		* return : array of parsed NSHTTPCookie instance.
+	* `- (nullable NSArray<NSHTTPCookie *> *)parseCookiesForLikeDomain:(NSString * _Nonnull)domain`
+		* domain : reqeust domain name part of domain.
+		* return : array of parsed NSHTTPCookie instance.
+
+## Usage - 3 Extract and build for Firefox Cookie ##
+
+* Import
+	* `#import <CookieExtractor/FirefoxCookieReader.h>
+* Class
+	* `FirefoxCookieReader`
+* Initialize
+	* `- (nonnull instancetype) init`
+		* return : instance of current active Firefox Cookie reader.
+* Get Cookie
+	* `- (nullable NSArray<NSHTTPCookie *> *)parseCookiesForMatchDomain:(NSString * _Nonnull)domain`
+		* domain : reqeust domain name completely matched.
+		* return : array of parsed NSHTTPCookie instance.
+	* `- (nullable NSArray<NSHTTPCookie *> *)parseCookiesForLikeDomain:(NSString * _Nonnull)domain`
+		* domain : reqeust domain name part of domain.
 		* return : array of parsed NSHTTPCookie instance.

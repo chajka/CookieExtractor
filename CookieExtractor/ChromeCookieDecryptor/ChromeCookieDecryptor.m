@@ -1,13 +1,19 @@
 //
 //  ChromeCookieDecryptor.m
-//  CookieExtractor
+//  Charleston
 //
-//  Created by Чайка on 4/18/17.
+//  Created by Чайка on 4/21/17.
 //  Copyright © 2017 Instrumentality of Mankind. All rights reserved.
 //
 
+#import <CommonCrypto/CommonCrypto.h>
 #import "ChromeCookieDecryptor.h"
 #import "FMDatabase.h"
+
+typedef NS_ENUM(NSUInteger, PeekMode) {
+	PeekModeMatch,
+	PeekModeLike
+};
 
 static NSString * const ServiceName = @" Safe Storage";
 static NSString * const ChromeAccountName = @"Chrome";
@@ -19,7 +25,8 @@ static NSString * const ColumnNameValue = @"value";
 static NSString * const ColumnNameEncValue = @"encrypted_value";
 
 static NSString *ChromeDefaultCookiePath = @"~/Library/Application Support/Google/Chrome/Default/Cookies";
-static NSString * const SQLString = @"select * from cookies where host_key is '%@' and name is 'user_session' order by last_access_utc desc;";
+static NSString * const SQLMatchString = @"select * from cookies where host_key is '%@' and name is 'user_session' order by last_access_utc desc;";
+static NSString * const SQLLikeString = @"select * from cookies where host_key like '%%%@' and name is 'user_session' order by last_access_utc desc;";
 
 static const NSString *saltString = @"saltysalt";
 static const NSString *IV = @"                ";
@@ -29,7 +36,7 @@ static const NSString *IV = @"                ";
 - (nonnull NSData *) getChromePassword;
 - (nonnull NSData *) getBrowserPassword:(NSString * _Nonnull)browserName;
 - (nullable NSString *) decrypt:(NSData * _Nonnull)encrypted;
-- (NSArray<NSHTTPCookie *> *)peekCookiesForDomain:(NSString * _Nonnull)domain;
+- (NSArray<NSHTTPCookie *> *)peekCookiesForDomain:(NSString * _Nonnull)domain mode:(PeekMode)mode;
 @end
 
 @implementation ChromeCookieDecryptor
@@ -42,7 +49,7 @@ static const NSString *IV = @"                ";
 	if (!self)
 		@throw [ChromeCookieExtractorException exceptionWithName:@"Initialize error" reason:@"Super returned nil" userInfo:nil];
 	serviceName = [ChromeAccountName stringByAppendingString:ServiceName];
-
+	
 	if ((path.length > 1) && ([@"~" isEqualToString:[path substringWithRange:NSMakeRange(0, 1)]]))
 		path = [path stringByExpandingTildeInPath];
 	if (![self checkDatabasePath:path])
@@ -77,34 +84,20 @@ static const NSString *IV = @"                ";
 	return self;
 }// end - (nonnull instancetype) initWithBrowserName:(NSString *_Nonnull)name cookiePath:(NSString * _Nonnull)path
 
-- (nonnull instancetype) initWithBrowserName:(NSString *_Nonnull)name cookiePath:(NSString * _Nonnull)path domainPrefix:(NSString * _Nonnull)domainPrefix
+- (void) dealloc
 {
-	self = [super init];
-	if (!self)
-		@throw [CookieDecryptorException exceptionWithName:@"Initialize error" reason:@"Super returned nil" userInfo:nil];
-	serviceName = [name stringByAppendingString:ServiceName];
-	if ((path.length > 1) && ([@"~" isEqualToString:[path substringWithRange:NSMakeRange(0, 1)]]))
-		path = [path stringByExpandingTildeInPath];
-	if (![self checkDatabasePath:path])
-		@throw [CookieDecryptorException exceptionWithName:@"File not found" reason:@"cookie file not found" userInfo:@{@"Path" : path}];
-	
-	db = [FMDatabase databaseWithPath:path];
-	if (![db open])
-		@throw [CookieDecryptorException exceptionWithName:@"Database can not open" reason:@"Chrome Cookie Database Open failed" userInfo:@{@"Database" : db}];
-	
-	password = [self getBrowserPassword:name];
-	prefix = [[NSString alloc] initWithString:domainPrefix];
-	
-	return self;
-}// end - (nonnull instancetype) initWithBrowserName:(NSString *_Nonnull)name cookiePath:(NSString * _Nonnull)path domainPrefix:(NSString * _Nonnull)domainPrefix
-
+	[db close];
+}// end - (void) dealloc
 #pragma mark - messages
-- (nullable NSArray<NSHTTPCookie *> *) cookiesForDomain:(NSString * _Nonnull)domain
+- (nullable NSArray<NSHTTPCookie *> *) cookiesForMatchDomain:(NSString * _Nonnull)domain
 {
-	NSString *tmpDomain = (prefix) ? [prefix stringByAppendingString:domain] :
-	[NSString stringWithString:domain];
-	return [self peekCookiesForDomain:tmpDomain];
-}// end - (nullable NSArray<NSHTTPCookie *> *) cookiesForDomain:(NSString * _Nonnull)domain
+	return [self peekCookiesForDomain:domain mode:PeekModeMatch];
+}// end - (nullable NSArray<NSHTTPCookie *> *) cookiesForLikeDomain:(NSString * _Nonnull)domain
+
+- (nullable NSArray<NSHTTPCookie *> *) cookiesForLikeDomain:(NSString * _Nonnull)domain
+{
+	return [self peekCookiesForDomain:domain mode:PeekModeLike];
+}// end - (nullable NSArray<NSHTTPCookie *> *) cookiesForLikeDomain:(NSString * _Nonnull)domain
 
 #pragma mark - private
 - (BOOL) checkDatabasePath:(NSString * _Nonnull)path
@@ -155,6 +148,8 @@ static const NSString *IV = @"                ";
 	NSData *chiper = [NSData dataWithBytes:([encrypted bytes] + 3) length:([encrypted length] - 3)];
 	
 	// key for password
+	CCCryptorRef											cryptor;
+
 	NSData *salt = [saltString dataUsingEncoding:NSUTF8StringEncoding];
 	key = [NSMutableData dataWithLength:16];
 	int result = CCKeyDerivationPBKDF(kCCPBKDF2, password.bytes, password.length, salt.bytes, salt.length, kCCPRFHmacAlgSHA1, 1003, key.mutableBytes, key.length);
@@ -185,9 +180,11 @@ static const NSString *IV = @"                ";
 	return [NSString stringWithString:decodedString];
 }// end - (void) setupDecrypt
 
-- (nullable NSArray<NSHTTPCookie *> *)peekCookiesForDomain:(NSString * _Nonnull)domain
+- (nullable NSArray<NSHTTPCookie *> *)peekCookiesForDomain:(NSString * _Nonnull) domain mode:(PeekMode)mode
 {
-	NSString *query = [NSString stringWithFormat:SQLString, domain];
+	NSString *query = (mode == PeekModeMatch) ?
+		[NSString stringWithFormat:SQLMatchString, domain] :
+		[NSString stringWithFormat:SQLLikeString, domain];
 	FMResultSet *results = [db executeQuery:query];
 	
 	NSMutableArray<NSHTTPCookie *> *cookies = [NSMutableArray array];
@@ -204,8 +201,6 @@ static const NSString *IV = @"                ";
 						};
 		[cookies addObject:[NSHTTPCookie cookieWithProperties:properties]];
 	}
-	[db close];
-	
 	if (cookies.count)
 		return [NSArray arrayWithArray:cookies];
 	

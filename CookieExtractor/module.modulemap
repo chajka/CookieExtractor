@@ -1,0 +1,17 @@
+framework module CookieExtractor {
+  umbrella header "CookieExtractor.h"
+  export *
+
+  module ChromeCookieDecryptor {
+    header "ChromeCookieDecryptor.h"
+	export *
+  }
+  module SafariCookieReader {
+	  header "SafariCookieReader.h"
+	  export *
+  }
+  module FirefoxCookieReader {
+	  header "FirefoxCookieReader.h"
+	  export *
+  }
+}

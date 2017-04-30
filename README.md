@@ -42,6 +42,24 @@ notice path is both fullpath. and tilde(~) prefixed user’s home relative path.
 ## Usage - 2 Parse and Convert Safari Cookie ##
 
 * Import
+	* `#import <CookieExtractor/SafariCookieReader.h>
+* Class
+	* `SafariCookieReader`
+* Initialize
+	* `- (nonnull instancetype) init`
+		* return : instance of Safari Cookie parser for current safari cookies.
+	* `- (nonnull instancetype) init`
+		* data : contents of Safari’s .binarycookies file (for read other place cookies).
+		* return : instance of Safari Cookie parser.
+* Get Cookie
+	* `-(NSArray<NSHTTPCookie *> *) paseCookies`
+		* return : array of parsed NSHTTPCookie instance.
+	* `- (nullable NSArray<NSHTTPCookie *> *)parseCookiesForMatchDomain:(NSString * _Nonnull)domain`
+		* domain : reqeust domain name completely matched.
+		* return : array of parsed NSHTTPCookie instance.
+	* `- (nullable NSArray<NSHTTPCookie *> *)parseCookiesForLikeDomain:(NSString * _Nonnull)domain`
+		* domain : reqeust domain name part of domain.
+		* return : array of parsed NSHTTPCookie instance.
 	* `#import <CookieExtractor/CookieParser.h>
 * Class
 	* `CookieParser`

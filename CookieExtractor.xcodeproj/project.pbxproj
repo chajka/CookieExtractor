@@ -26,6 +26,9 @@
 		C67213581EB57838005D347D /* BinaryReader.m in Sources */ = {isa = PBXBuildFile; fileRef = C67213531EB57838005D347D /* BinaryReader.m */; };
 		C67213591EB57838005D347D /* BinaryReader.m in Sources */ = {isa = PBXBuildFile; fileRef = C67213531EB57838005D347D /* BinaryReader.m */; };
 		C672135A1EB57838005D347D /* BinaryReader.h in Headers */ = {isa = PBXBuildFile; fileRef = C67213541EB57838005D347D /* BinaryReader.h */; };
+		C672135D1EB5789A005D347D /* FirefoxCookieReader.m in Sources */ = {isa = PBXBuildFile; fileRef = C672135B1EB5789A005D347D /* FirefoxCookieReader.m */; };
+		C672135E1EB5789A005D347D /* FirefoxCookieReader.m in Sources */ = {isa = PBXBuildFile; fileRef = C672135B1EB5789A005D347D /* FirefoxCookieReader.m */; };
+		C672135F1EB5789A005D347D /* FirefoxCookieReader.h in Headers */ = {isa = PBXBuildFile; fileRef = C672135C1EB5789A005D347D /* FirefoxCookieReader.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,6 +61,8 @@
 		C67213521EB57838005D347D /* SafariCookieReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SafariCookieReader.h; path = SafariCookieReader/SafariCookieReader.h; sourceTree = "<group>"; };
 		C67213531EB57838005D347D /* BinaryReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BinaryReader.m; path = SafariCookieReader/BinaryReader.m; sourceTree = "<group>"; };
 		C67213541EB57838005D347D /* BinaryReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BinaryReader.h; path = SafariCookieReader/BinaryReader.h; sourceTree = "<group>"; };
+		C672135B1EB5789A005D347D /* FirefoxCookieReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FirefoxCookieReader.m; path = FirefoxCookieReader/FirefoxCookieReader.m; sourceTree = "<group>"; };
+		C672135C1EB5789A005D347D /* FirefoxCookieReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FirefoxCookieReader.h; path = FirefoxCookieReader/FirefoxCookieReader.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +112,7 @@
 				C609D1FC1EA644FA00B2EBBE /* Info.plist */,
 				C609D25F1EA6685100B2EBBE /* SafariCookieReader */,
 				C609D22A1EA649FA00B2EBBE /* ChromeCookieExtractor */,
+				C67213601EB578AB005D347D /* FirefoxCookieReader */,
 			);
 			path = CookieExtractor;
 			sourceTree = "<group>";
@@ -169,12 +175,21 @@
 		C609D25F1EA6685100B2EBBE /* SafariCookieReader */ = {
 			isa = PBXGroup;
 			children = (
-				C67213511EB57838005D347D /* SafariCookieReader.m */,
 				C67213521EB57838005D347D /* SafariCookieReader.h */,
-				C67213531EB57838005D347D /* BinaryReader.m */,
+				C67213511EB57838005D347D /* SafariCookieReader.m */,
 				C67213541EB57838005D347D /* BinaryReader.h */,
+				C67213531EB57838005D347D /* BinaryReader.m */,
 			);
 			name = SafariCookieReader;
+			sourceTree = "<group>";
+		};
+		C67213601EB578AB005D347D /* FirefoxCookieReader */ = {
+			isa = PBXGroup;
+			children = (
+				C672135C1EB5789A005D347D /* FirefoxCookieReader.h */,
+				C672135B1EB5789A005D347D /* FirefoxCookieReader.m */,
+			);
+			name = FirefoxCookieReader;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -187,6 +202,7 @@
 				C609D2221EA6493100B2EBBE /* FMResultSet.h in Headers */,
 				C609D21B1EA648AD00B2EBBE /* sqlite3.h in Headers */,
 				C609D2501EA65ED000B2EBBE /* ChromeCookieDecryptor.h in Headers */,
+				C672135F1EB5789A005D347D /* FirefoxCookieReader.h in Headers */,
 				C67213571EB57838005D347D /* SafariCookieReader.h in Headers */,
 				C672135A1EB57838005D347D /* BinaryReader.h in Headers */,
 				C609D2241EA6493100B2EBBE /* FMDatabase.h in Headers */,
@@ -296,6 +312,7 @@
 			files = (
 				C609D2231EA6493100B2EBBE /* FMDatabase.m in Sources */,
 				C609D2211EA6493100B2EBBE /* FMResultSet.m in Sources */,
+				C672135D1EB5789A005D347D /* FirefoxCookieReader.m in Sources */,
 				C609D21A1EA648AD00B2EBBE /* sqlite3.c in Sources */,
 				C609D24E1EA65ED000B2EBBE /* ChromeCookieDecryptor.m in Sources */,
 				C67213551EB57838005D347D /* SafariCookieReader.m in Sources */,
@@ -307,6 +324,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C672135E1EB5789A005D347D /* FirefoxCookieReader.m in Sources */,
 				C609D24F1EA65ED000B2EBBE /* ChromeCookieDecryptor.m in Sources */,
 				C67213591EB57838005D347D /* BinaryReader.m in Sources */,
 				C67213561EB57838005D347D /* SafariCookieReader.m in Sources */,

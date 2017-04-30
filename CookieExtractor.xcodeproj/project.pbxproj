@@ -63,6 +63,7 @@
 		C67213541EB57838005D347D /* BinaryReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BinaryReader.h; path = SafariCookieReader/BinaryReader.h; sourceTree = "<group>"; };
 		C672135B1EB5789A005D347D /* FirefoxCookieReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FirefoxCookieReader.m; path = FirefoxCookieReader/FirefoxCookieReader.m; sourceTree = "<group>"; };
 		C672135C1EB5789A005D347D /* FirefoxCookieReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FirefoxCookieReader.h; path = FirefoxCookieReader/FirefoxCookieReader.h; sourceTree = "<group>"; };
+		C67213611EB57995005D347D /* module.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,9 +110,10 @@
 			isa = PBXGroup;
 			children = (
 				C609D1FB1EA644FA00B2EBBE /* CookieExtractor.h */,
+				C67213611EB57995005D347D /* module.modulemap */,
 				C609D1FC1EA644FA00B2EBBE /* Info.plist */,
-				C609D25F1EA6685100B2EBBE /* SafariCookieReader */,
 				C609D22A1EA649FA00B2EBBE /* ChromeCookieExtractor */,
+				C609D25F1EA6685100B2EBBE /* SafariCookieReader */,
 				C67213601EB578AB005D347D /* FirefoxCookieReader */,
 			);
 			path = CookieExtractor;
@@ -443,7 +445,7 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
-				DEFINES_MODULE = NO;
+				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = G9SC48NK42;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -452,6 +454,8 @@
 				INFOPLIST_FILE = CookieExtractor/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				MODULEMAP_FILE = "$(SRCROOT)/CookieExtractor/module.modulemap";
 				PRODUCT_BUNDLE_IDENTIFIER = tv.from.chajka.CookieExtractor;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -463,7 +467,7 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
-				DEFINES_MODULE = NO;
+				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = G9SC48NK42;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -472,6 +476,8 @@
 				INFOPLIST_FILE = CookieExtractor/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				MODULEMAP_FILE = "$(SRCROOT)/CookieExtractor/module.modulemap";
 				PRODUCT_BUNDLE_IDENTIFIER = tv.from.chajka.CookieExtractor;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;

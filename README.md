@@ -62,13 +62,20 @@ notice path is both fullpath. and tilde(~) prefixed user’s home relative path.
 	* `- (nullable NSArray<NSHTTPCookie *> *)parseCookiesForLikeDomain:(NSString * _Nonnull)domain`
 		* domain : reqeust domain name part of domain.
 		* return : array of parsed NSHTTPCookie instance.
-	* `#import <CookieExtractor/CookieParser.h>
+
+## Usage - 3 Extract and build for Firefox Cookie ##
+
+* Import
+	* `#import <CookieExtractor/FirefoxCookieReader.h>
 * Class
-	* `CookieParser`
+	* `FirefoxCookieReader`
 * Initialize
-	* `- (nonnull instancetype) initWithData:(NSData * _Nonnull)data`
-		* data : contents of Safari’s .binarycookies file.
-		* return : instance of Safari Cookie parser.
+	* `- (nonnull instancetype) init`
+		* return : instance of current active Firefox Cookie reader.
 * Get Cookie
-	* `-(NSArray<NSHTTPCookie *> *) paseCookies`
+	* `- (nullable NSArray<NSHTTPCookie *> *)parseCookiesForMatchDomain:(NSString * _Nonnull)domain`
+		* domain : reqeust domain name completely matched.
+		* return : array of parsed NSHTTPCookie instance.
+	* `- (nullable NSArray<NSHTTPCookie *> *)parseCookiesForLikeDomain:(NSString * _Nonnull)domain`
+		* domain : reqeust domain name part of domain.
 		* return : array of parsed NSHTTPCookie instance.

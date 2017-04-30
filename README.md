@@ -32,10 +32,12 @@ Current version is 0.2.
 		* throw : Initialize error.
 		* throw : Wrong path error.
 * Get cookie
-	* `- (nullable NSArray<NSHTTPCookie *> *) cookiesForDomain:(NSString * _Nonnull)domain`
-		* domain : domain for search cookies
-		* return : array of NSHTTPCookie
-		* throw : decrypto engine error.
+	* `- (nullable NSArray<NSHTTPCookie *> *)parseCookiesForMatchDomain:(NSString * _Nonnull)domain`
+		* domain : reqeust domain name completely matched.
+		* return : array of parsed NSHTTPCookie instance.
+	* `- (nullable NSArray<NSHTTPCookie *> *)parseCookiesForLikeDomain:(NSString * _Nonnull)domain`
+		* domain : reqeust domain name part of domain.
+		* return : array of parsed NSHTTPCookie instance.
 
 notice path is both fullpath. and tilde(~) prefixed user’s home relative path.
 

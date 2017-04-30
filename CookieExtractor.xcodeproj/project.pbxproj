@@ -22,13 +22,13 @@
 		C609D2501EA65ED000B2EBBE /* ChromeCookieDecryptor.h in Headers */ = {isa = PBXBuildFile; fileRef = C609D24D1EA65ED000B2EBBE /* ChromeCookieDecryptor.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C67213551EB57838005D347D /* SafariCookieReader.m in Sources */ = {isa = PBXBuildFile; fileRef = C67213511EB57838005D347D /* SafariCookieReader.m */; };
 		C67213561EB57838005D347D /* SafariCookieReader.m in Sources */ = {isa = PBXBuildFile; fileRef = C67213511EB57838005D347D /* SafariCookieReader.m */; };
-		C67213571EB57838005D347D /* SafariCookieReader.h in Headers */ = {isa = PBXBuildFile; fileRef = C67213521EB57838005D347D /* SafariCookieReader.h */; };
+		C67213571EB57838005D347D /* SafariCookieReader.h in Headers */ = {isa = PBXBuildFile; fileRef = C67213521EB57838005D347D /* SafariCookieReader.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C67213581EB57838005D347D /* BinaryReader.m in Sources */ = {isa = PBXBuildFile; fileRef = C67213531EB57838005D347D /* BinaryReader.m */; };
 		C67213591EB57838005D347D /* BinaryReader.m in Sources */ = {isa = PBXBuildFile; fileRef = C67213531EB57838005D347D /* BinaryReader.m */; };
-		C672135A1EB57838005D347D /* BinaryReader.h in Headers */ = {isa = PBXBuildFile; fileRef = C67213541EB57838005D347D /* BinaryReader.h */; };
+		C672135A1EB57838005D347D /* BinaryReader.h in Headers */ = {isa = PBXBuildFile; fileRef = C67213541EB57838005D347D /* BinaryReader.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		C672135D1EB5789A005D347D /* FirefoxCookieReader.m in Sources */ = {isa = PBXBuildFile; fileRef = C672135B1EB5789A005D347D /* FirefoxCookieReader.m */; };
 		C672135E1EB5789A005D347D /* FirefoxCookieReader.m in Sources */ = {isa = PBXBuildFile; fileRef = C672135B1EB5789A005D347D /* FirefoxCookieReader.m */; };
-		C672135F1EB5789A005D347D /* FirefoxCookieReader.h in Headers */ = {isa = PBXBuildFile; fileRef = C672135C1EB5789A005D347D /* FirefoxCookieReader.h */; };
+		C672135F1EB5789A005D347D /* FirefoxCookieReader.h in Headers */ = {isa = PBXBuildFile; fileRef = C672135C1EB5789A005D347D /* FirefoxCookieReader.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */

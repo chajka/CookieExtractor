@@ -85,7 +85,12 @@ static NSString * const ColumnNameValue =				@"value";
 	NSString *profile = [NSString stringWithFormat:FirefoxCookiePath, profileName];
 	NSString *peekableProfile = [NSString stringWithFormat:FirefoxPeekableCookiePath, profileName];
 	NSString *cookiePath = [profile stringByExpandingTildeInPath];
-	FMDatabase *database = [FMDatabase databaseWithPath:cookiePath];
+	databaseForPeek = [peekableProfile stringByExpandingTildeInPath];
+	NSFileManager *fm = [NSFileManager defaultManager];
+	err = nil;
+	[fm copyItemAtPath:cookiePath toPath:databaseForPeek error:&err];
+	if (err) { return nil; }
+	FMDatabase *database = [FMDatabase databaseWithPath:databaseForPeek];
 	if (![database open])
 		return nil;
 	

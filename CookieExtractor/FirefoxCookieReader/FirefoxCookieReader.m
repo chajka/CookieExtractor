@@ -14,18 +14,19 @@ typedef NS_ENUM(NSUInteger, PeekMode) {
 	PeekModeLike
 };
 
-static NSString * const MultiProfileQuery =		@"^Path=Profiles/([^\\n]+)\\nDefault=1$";
-static NSString * const SingleProfileQuery =	@"Path=Profiles/(.*\\..*)";
-static NSString * const FirefoxINIPath =		@"~/Library/Application Support/Firefox/profiles.ini";
-static NSString * const FirefoxCookiePath =		@"~/Library/Application Support/Firefox/Profiles/%@/cookies.sqlite";
-static NSString * const CachePath =				@"~/Library/Caches/jp.iom.Charleston/cookies.sqlite";
-static NSString * const SQLMatchString =		@"select * from moz_cookies where host is '%@' order by lastAccessed;";
-static NSString * const SQLLikeString =			@"select * from moz_cookies where host like '%%%@' order by lastAccessed;";
+static NSString * const MultiProfileQuery =				@"^Path=Profiles/([^\\n]+)\\nDefault=1$";
+static NSString * const SingleProfileQuery =			@"Path=Profiles/(.*\\..*)";
+static NSString * const FirefoxINIPath =				@"~/Library/Application Support/Firefox/profiles.ini";
+static NSString * const FirefoxCookiePath =				@"~/Library/Application Support/Firefox/Profiles/%@/cookies.sqlite";
+static NSString * const FirefoxPeekableCookiePath =		@"~/Library/Application Support/Firefox/Profiles/%@/cookies_peek.sqlite";
+static NSString * const CachePath =						@"~/Library/Caches/jp.iom.Charleston/cookies.sqlite";
+static NSString * const SQLMatchString =				@"select * from moz_cookies where host is '%@' order by lastAccessed;";
+static NSString * const SQLLikeString =					@"select * from moz_cookies where host like '%%%@' order by lastAccessed;";
 
-static NSString * const ColumnNameHost =	@"host";
-static NSString * const ColumnNamePath =	@"path";
-static NSString * const ColumnNameName =	@"name";
-static NSString * const ColumnNameValue =	@"value";
+static NSString * const ColumnNameHost =				@"host";
+static NSString * const ColumnNamePath =				@"path";
+static NSString * const ColumnNameName =				@"name";
+static NSString * const ColumnNameValue =				@"value";
 
 @interface FirefoxCookieReader ()
 - (nullable FMDatabase *) openDatabase;
@@ -47,6 +48,8 @@ static NSString * const ColumnNameValue =	@"value";
 - (void) dealloc
 {
 	[db close];
+	NSFileManager *fm = [NSFileManager defaultManager];
+	[fm removeItemAtPath:databaseForPeek error:nil];
 }// end - (void) dealloc
 #pragma mark - override
 #pragma mark - computed properties
@@ -82,8 +85,14 @@ static NSString * const ColumnNameValue =	@"value";
 	}// end if multi profile or single profile
 	NSString *profileName = [firefoxIniFile substringWithRange:profileRange];
 	NSString *profile = [NSString stringWithFormat:FirefoxCookiePath, profileName];
+	NSString *peekableProfile = [NSString stringWithFormat:FirefoxPeekableCookiePath, profileName];
 	NSString *cookiePath = [profile stringByExpandingTildeInPath];
-	FMDatabase *database = [FMDatabase databaseWithPath:cookiePath];
+	databaseForPeek = [peekableProfile stringByExpandingTildeInPath];
+	NSFileManager *fm = [NSFileManager defaultManager];
+	err = nil;
+	[fm copyItemAtPath:cookiePath toPath:databaseForPeek error:&err];
+	if (err) { return nil; }
+	FMDatabase *database = [FMDatabase databaseWithPath:databaseForPeek];
 	if (![database open])
 		return nil;
 	

@@ -1,0 +1,4 @@
+*.xcscmblueprint
+IDEWorkspaceChecks.plist
+fmdb/
+Binaries/

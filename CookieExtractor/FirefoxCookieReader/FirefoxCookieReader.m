@@ -83,6 +83,7 @@ static NSString * const ColumnNameValue =				@"value";
 	}// end if multi profile or single profile
 	NSString *profileName = [firefoxIniFile substringWithRange:profileRange];
 	NSString *profile = [NSString stringWithFormat:FirefoxCookiePath, profileName];
+	NSString *peekableProfile = [NSString stringWithFormat:FirefoxPeekableCookiePath, profileName];
 	NSString *cookiePath = [profile stringByExpandingTildeInPath];
 	FMDatabase *database = [FMDatabase databaseWithPath:cookiePath];
 	if (![database open])

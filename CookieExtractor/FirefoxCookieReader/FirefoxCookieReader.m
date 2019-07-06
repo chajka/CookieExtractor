@@ -23,10 +23,10 @@ static NSString * const CachePath =						@"~/Library/Caches/jp.iom.Charleston/co
 static NSString * const SQLMatchString =				@"select * from moz_cookies where host is '%@' order by lastAccessed;";
 static NSString * const SQLLikeString =					@"select * from moz_cookies where host like '%%%@' order by lastAccessed;";
 
-static NSString * const ColumnNameHost =	@"host";
-static NSString * const ColumnNamePath =	@"path";
-static NSString * const ColumnNameName =	@"name";
-static NSString * const ColumnNameValue =	@"value";
+static NSString * const ColumnNameHost =				@"host";
+static NSString * const ColumnNamePath =				@"path";
+static NSString * const ColumnNameName =				@"name";
+static NSString * const ColumnNameValue =				@"value";
 
 @interface FirefoxCookieReader ()
 - (nullable FMDatabase *) openDatabase;

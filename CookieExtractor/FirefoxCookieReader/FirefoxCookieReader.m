@@ -18,6 +18,7 @@ static NSString * const MultiProfileQuery =		@"^Path=Profiles/([^\\n]+)\\nDefaul
 static NSString * const SingleProfileQuery =	@"Path=Profiles/(.*\\..*)";
 static NSString * const FirefoxINIPath =		@"~/Library/Application Support/Firefox/profiles.ini";
 static NSString * const FirefoxCookiePath =		@"~/Library/Application Support/Firefox/Profiles/%@/cookies.sqlite";
+static NSString * const FirefoxCookiePath =		@"~/Library/Application Support/Firefox/Profiles/%@/cookies_peek.sqlite";
 static NSString * const CachePath =				@"~/Library/Caches/jp.iom.Charleston/cookies.sqlite";
 static NSString * const SQLMatchString =		@"select * from moz_cookies where host is '%@' order by lastAccessed;";
 static NSString * const SQLLikeString =			@"select * from moz_cookies where host like '%%%@' order by lastAccessed;";

@@ -11,6 +11,7 @@
 @class FMDatabase;
 @interface FirefoxCookieReader : NSObject {
 	FMDatabase											*db;
+	NSString											*databaseForPeek;
 }
 
 /**

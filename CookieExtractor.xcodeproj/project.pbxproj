@@ -16,6 +16,7 @@
 		C609D24E1EA65ED000B2EBBE /* ChromeCookieDecryptor.m in Sources */ = {isa = PBXBuildFile; fileRef = C609D24C1EA65ED000B2EBBE /* ChromeCookieDecryptor.m */; };
 		C609D24F1EA65ED000B2EBBE /* ChromeCookieDecryptor.m in Sources */ = {isa = PBXBuildFile; fileRef = C609D24C1EA65ED000B2EBBE /* ChromeCookieDecryptor.m */; };
 		C609D2501EA65ED000B2EBBE /* ChromeCookieDecryptor.h in Headers */ = {isa = PBXBuildFile; fileRef = C609D24D1EA65ED000B2EBBE /* ChromeCookieDecryptor.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C639038222D04EC90072B8E2 /* FirefoxCookieExtractorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C639038122D04EC90072B8E2 /* FirefoxCookieExtractorTests.m */; };
 		C67213551EB57838005D347D /* SafariCookieReader.m in Sources */ = {isa = PBXBuildFile; fileRef = C67213511EB57838005D347D /* SafariCookieReader.m */; };
 		C67213561EB57838005D347D /* SafariCookieReader.m in Sources */ = {isa = PBXBuildFile; fileRef = C67213511EB57838005D347D /* SafariCookieReader.m */; };
 		C67213571EB57838005D347D /* SafariCookieReader.h in Headers */ = {isa = PBXBuildFile; fileRef = C67213521EB57838005D347D /* SafariCookieReader.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -58,6 +59,7 @@
 		C609D2321EA6532900B2EBBE /* ChromeCookieExtractorTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChromeCookieExtractorTests.m; sourceTree = "<group>"; };
 		C609D24C1EA65ED000B2EBBE /* ChromeCookieDecryptor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ChromeCookieDecryptor.m; path = ChromeCookieDecryptor/ChromeCookieDecryptor.m; sourceTree = "<group>"; };
 		C609D24D1EA65ED000B2EBBE /* ChromeCookieDecryptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ChromeCookieDecryptor.h; path = ChromeCookieDecryptor/ChromeCookieDecryptor.h; sourceTree = "<group>"; };
+		C639038122D04EC90072B8E2 /* FirefoxCookieExtractorTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FirefoxCookieExtractorTests.m; sourceTree = "<group>"; };
 		C67213511EB57838005D347D /* SafariCookieReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SafariCookieReader.m; path = SafariCookieReader/SafariCookieReader.m; sourceTree = "<group>"; };
 		C67213521EB57838005D347D /* SafariCookieReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SafariCookieReader.h; path = SafariCookieReader/SafariCookieReader.h; sourceTree = "<group>"; };
 		C67213531EB57838005D347D /* BinaryReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BinaryReader.m; path = SafariCookieReader/BinaryReader.m; sourceTree = "<group>"; };
@@ -131,6 +133,7 @@
 			children = (
 				C609D2081EA644FA00B2EBBE /* Info.plist */,
 				C609D2321EA6532900B2EBBE /* ChromeCookieExtractorTests.m */,
+				C639038122D04EC90072B8E2 /* FirefoxCookieExtractorTests.m */,
 			);
 			path = CookieExtractorTests;
 			sourceTree = "<group>";
@@ -287,6 +290,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = C609D1EE1EA644FA00B2EBBE;
@@ -342,6 +346,7 @@
 				C609D24F1EA65ED000B2EBBE /* ChromeCookieDecryptor.m in Sources */,
 				C69EC7DF218EA23F00223320 /* FMDatabase.m in Sources */,
 				C67213591EB57838005D347D /* BinaryReader.m in Sources */,
+				C639038222D04EC90072B8E2 /* FirefoxCookieExtractorTests.m in Sources */,
 				C69EC7E5218EA5D200223320 /* FMDatabasePool.m in Sources */,
 				C67213561EB57838005D347D /* SafariCookieReader.m in Sources */,
 				C609D2331EA6532900B2EBBE /* ChromeCookieExtractorTests.m in Sources */,

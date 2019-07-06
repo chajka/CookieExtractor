@@ -48,6 +48,8 @@ static NSString * const ColumnNameValue =				@"value";
 - (void) dealloc
 {
 	[db close];
+	NSFileManager *fm = [NSFileManager defaultManager];
+	[fm removeItemAtPath:databaseForPeek error:nil];
 }// end - (void) dealloc
 #pragma mark - override
 #pragma mark - computed properties

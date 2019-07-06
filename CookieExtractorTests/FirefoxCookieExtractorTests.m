@@ -28,9 +28,11 @@
 	XCTAssertNotNil(reader);
 	@try {
 		NSArray<NSHTTPCookie *> *cookies = [reader cookiesMatchDomain:@".nicovideo.jp"];
+		XCTAssertNotEqual(cookies.count, 0);
 		for (NSHTTPCookie *cookie in cookies) {
 			XCTAssertNotNil(cookie.domain);
 			XCTAssertNotNil(cookie.path);
+			XCTAssertNotNil(cookie.name);
 			XCTAssertNotNil(cookie.value);
 		}
 	} @catch (NSException *exception) {

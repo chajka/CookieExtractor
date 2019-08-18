@@ -15,6 +15,7 @@ typedef NS_ENUM(NSUInteger, PeekMode) {
 	PeekModeLike
 };
 
+NS_ASSUME_NONNULL_BEGIN
 static NSString * const ServiceName = @" Safe Storage";
 static NSString * const ChromeAccountName = @"Chrome";
 
@@ -23,13 +24,16 @@ static NSString * const ColumnNamePath = @"path";
 static NSString * const ColumnNameName = @"name";
 static NSString * const ColumnNameValue = @"value";
 static NSString * const ColumnNameEncValue = @"encrypted_value";
-
-static NSString *ChromeDefaultCookiePath = @"~/Library/Application Support/Google/Chrome/Default/Cookies";
+static NSString * const ChromeLocalSite = @"/Local State";
+static NSString * const ChromeCookiePath = @"/%@/Cookies";
 static NSString * const SQLMatchString = @"select * from cookies where host_key is '%@' and name is 'user_session' order by last_access_utc desc;";
 static NSString * const SQLLikeString = @"select * from cookies where host_key like '%%%@' and name is 'user_session' order by last_access_utc desc;";
 
+static NSString * const ProfileFolderStartAnchor = @"\"profile\":{\"info_cache\":{\"";
+static NSString * const ProfileFolderEndAnchor = @"\":{\"active_time\"";
 static const NSString *saltString = @"saltysalt";
 static const NSString *IV = @"                ";
+NS_ASSUME_NONNULL_END
 
 @interface ChromeCookieDecryptor ()
 - (BOOL) checkDatabasePath:(NSString * _Nonnull)path;

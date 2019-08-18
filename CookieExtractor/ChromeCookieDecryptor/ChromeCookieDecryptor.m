@@ -107,8 +107,22 @@ NS_ASSUME_NONNULL_END
 - (BOOL) checkDatabasePath:(NSString * _Nonnull)path
 {
 	NSFileManager *fm = [NSFileManager defaultManager];
+	NSString *localSiteFilePath = [path stringByAppendingString:ChromeLocalSite];
+	NSError *err = nil;
+	NSString *localSite = [NSString stringWithContentsOfFile:localSiteFilePath encoding:NSUTF8StringEncoding error:&err];
+	if (!err && localSite) {
+		NSRange searchRange = NSMakeRange(0, localSite.length);
+		NSRange startRange = [localSite rangeOfString:ProfileFolderStartAnchor options:NSLiteralSearch range:searchRange];
+		NSRange endRange = [localSite rangeOfString:ProfileFolderEndAnchor options:NSLiteralSearch range:searchRange];
+		NSRange profileFolderRange = NSMakeRange(startRange.location + startRange.length, endRange.location - startRange.location - startRange.length);
+		NSString *profileFolder = [localSite substringWithRange:profileFolderRange];
+		cookiePath = [path stringByAppendingString:[NSString stringWithFormat:ChromeCookiePath, profileFolder]];
+		NSLog(@"%@", cookiePath);
+
+		return [fm fileExistsAtPath:cookiePath];
+	}// end if noerror
 	
-	return [fm fileExistsAtPath:path];
+	return NO;
 }// end - (BOOL) checkDatabasePath:(NSString * _Nonnull)path
 
 - (nonnull NSData *) getChromePassword

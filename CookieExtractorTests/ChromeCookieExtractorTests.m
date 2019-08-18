@@ -58,7 +58,7 @@
 }
 
 - (void) test03_Chromium_with_prefix {
-	ChromeCookieDecryptor *decryptor = [[ChromeCookieDecryptor alloc] initWithBrowserName:@"Chromium" cookiePath:@"~/Library/Application Support/Chromium/Default/Cookies"];
+	ChromeCookieDecryptor *decryptor = [[ChromeCookieDecryptor alloc] initWithBrowserName:@"Chromium" cookiePath:@"~/Library/Application Support/Chromium"];
 	XCTAssertNotNil(decryptor);
 	@try {
 		NSArray<NSHTTPCookie *> *cookies = [decryptor cookiesForMatchDomain:@"nicovideo.jp"];

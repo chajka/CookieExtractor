@@ -256,3 +256,10 @@ NSUInteger static DoubleByteLength =									8;
 }// end - (nonnull NSArray<CookiePage *> *)slicePage
 
 @end
+
+@implementation NSData (String)
+- (nonnull NSString *) toString:(NSStringEncoding)encoding
+{
+	return [[NSString alloc] initWithData:self encoding:encoding];
+}// end - (nonnull NSString *) toString:(NSStringEncoding)encoding
+@end

@@ -43,10 +43,3 @@
 - (nonnull NSString *) toString:(NSStringEncoding)encoding;
 @end
 
-@implementation NSData (String)
-- (nonnull NSString *) toString:(NSStringEncoding)encoding
-{
-	return [[NSString alloc] initWithData:self encoding:encoding];
-}// end - (nonnull NSString *) toString:(NSStringEncoding)encoding
-@end
-

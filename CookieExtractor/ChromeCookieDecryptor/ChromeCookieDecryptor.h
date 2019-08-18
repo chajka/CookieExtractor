@@ -17,6 +17,8 @@
 	NSString												*serviceName;
 	
 	NSMutableData											*key;
+
+	NSString												*cookiePath;
 }
 #pragma mark - constructor
 

@@ -26,7 +26,7 @@
 }
 
 - (void) test01_Chrome {
-	ChromeCookieDecryptor *decryptor = [[ChromeCookieDecryptor alloc] initWithCookiePath:@"~/Library/Application Support/Google/Chrome/Default/Cookies"];
+	ChromeCookieDecryptor *decryptor = [[ChromeCookieDecryptor alloc] initWithCookiePath:@"~/Library/Application Support/Google/Chrome"];
 	XCTAssertNotNil(decryptor);
 	@try {
 		NSArray<NSHTTPCookie *> *cookies = [decryptor cookiesForMatchDomain:@".nicovideo.jp"];
@@ -42,7 +42,7 @@
 }
 
 - (void) test02_Chromium_without_prefix {
-	ChromeCookieDecryptor *decryptor = [[ChromeCookieDecryptor alloc] initWithCookiePath:@"~/Library/Application Support/Google/Chrome/Default/Cookies"];
+	ChromeCookieDecryptor *decryptor = [[ChromeCookieDecryptor alloc] initWithCookiePath:@"~/Library/Application Support/Google/Chrome"];
 	XCTAssertNotNil(decryptor);
 	@try {
 		NSArray<NSHTTPCookie *> *cookies = [decryptor cookiesForMatchDomain:@".nicovideo.jp"];
@@ -58,7 +58,7 @@
 }
 
 - (void) test03_Chromium_with_prefix {
-	ChromeCookieDecryptor *decryptor = [[ChromeCookieDecryptor alloc] initWithBrowserName:@"Chromium" cookiePath:@"~/Library/Application Support/Chromium/Default/Cookies"];
+	ChromeCookieDecryptor *decryptor = [[ChromeCookieDecryptor alloc] initWithBrowserName:@"Chromium" cookiePath:@"~/Library/Application Support/Chromium"];
 	XCTAssertNotNil(decryptor);
 	@try {
 		NSArray<NSHTTPCookie *> *cookies = [decryptor cookiesForMatchDomain:@"nicovideo.jp"];
@@ -73,8 +73,8 @@
 	}
 }
 
-- (void) test04_Opera_with_prefix {
-	ChromeCookieDecryptor *decryptor = [[ChromeCookieDecryptor alloc] initWithBrowserName:@"Opera" cookiePath:@"~/Library/Application Support/com.operasoftware.Opera/Cookies"];
+- (void) test04_Brave_with_prefix {
+	ChromeCookieDecryptor *decryptor = [[ChromeCookieDecryptor alloc] initWithBrowserName:@"Brave" cookiePath:@"~/Library/Application Support/BraveSoftware/Brave-Browser"];
 	XCTAssertNotNil(decryptor);
 	@try {
 		NSArray<NSHTTPCookie *> *cookies = [decryptor cookiesForMatchDomain:@"nicovideo.jp"];
@@ -90,7 +90,7 @@
 }
 
 - (void) test05_Vivaldi_with_prefix {
-	ChromeCookieDecryptor *decryptor = [[ChromeCookieDecryptor alloc] initWithBrowserName:@"Chrome" cookiePath:@"~/Library/Application Support/Vivaldi/Default/Cookies"];
+	ChromeCookieDecryptor *decryptor = [[ChromeCookieDecryptor alloc] initWithBrowserName:@"Chrome" cookiePath:@"~/Library/Application Support/Vivaldi"];
 	XCTAssertNotNil(decryptor);
 	@try {
 		NSArray<NSHTTPCookie *> *cookies = [decryptor cookiesForMatchDomain:@"nicovideo.jp"];

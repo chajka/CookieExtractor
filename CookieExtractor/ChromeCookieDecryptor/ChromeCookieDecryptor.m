@@ -59,7 +59,7 @@ NS_ASSUME_NONNULL_END
 	if (![self checkDatabasePath:path])
 		@throw [ChromeCookieExtractorException exceptionWithName:@"File not found" reason:@"cookie file not found" userInfo:@{@"Path" : path}];
 	
-	db = [FMDatabase databaseWithPath:path];
+	db = [FMDatabase databaseWithPath:cookiePath];
 	if (![db open])
 		@throw [CookieDecryptorException exceptionWithName:@"Database can not open" reason:@"Chrome Cookie Database Open failed" userInfo:@{@"Database" : db}];
 	

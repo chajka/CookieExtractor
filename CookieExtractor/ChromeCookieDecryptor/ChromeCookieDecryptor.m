@@ -77,9 +77,9 @@ NS_ASSUME_NONNULL_END
 	if ((path.length > 1) && ([@"~" isEqualToString:[path substringWithRange:NSMakeRange(0, 1)]]))
 		path = [path stringByExpandingTildeInPath];
 	if (![self checkDatabasePath:path])
-		@throw [CookieDecryptorException exceptionWithName:@"File not found" reason:@"cookie file not found" userInfo:@{@"Path" : path}];
+		@throw [CookieDecryptorException exceptionWithName:@"File not found" reason:@"cookie file not found" userInfo:@{@"Path" : cookiePath}];
 	
-	db = [FMDatabase databaseWithPath:path];
+	db = [FMDatabase databaseWithPath:cookiePath];
 	if (![db open])
 		@throw [CookieDecryptorException exceptionWithName:@"Database can not open" reason:@"Chrome Cookie Database Open failed" userInfo:@{@"Database" : db}];
 	
@@ -92,6 +92,7 @@ NS_ASSUME_NONNULL_END
 {
 	[db close];
 }// end - (void) dealloc
+
 #pragma mark - messages
 - (nullable NSArray<NSHTTPCookie *> *) cookiesForMatchDomain:(NSString * _Nonnull)domain
 {

@@ -15,6 +15,7 @@ typedef NS_ENUM(NSUInteger, PeekMode) {
 	PeekModeLike
 };
 
+NS_ASSUME_NONNULL_BEGIN
 static NSString * const ServiceName = @" Safe Storage";
 static NSString * const ChromeAccountName = @"Chrome";
 
@@ -23,13 +24,16 @@ static NSString * const ColumnNamePath = @"path";
 static NSString * const ColumnNameName = @"name";
 static NSString * const ColumnNameValue = @"value";
 static NSString * const ColumnNameEncValue = @"encrypted_value";
-
-static NSString *ChromeDefaultCookiePath = @"~/Library/Application Support/Google/Chrome/Default/Cookies";
+static NSString * const ChromeLocalSite = @"/Local State";
+static NSString * const ChromeCookiePath = @"/%@/Cookies";
 static NSString * const SQLMatchString = @"select * from cookies where host_key is '%@' and name is 'user_session' order by last_access_utc desc;";
 static NSString * const SQLLikeString = @"select * from cookies where host_key like '%%%@' and name is 'user_session' order by last_access_utc desc;";
 
+static NSString * const ProfileFolderStartAnchor = @"\"profile\":{\"info_cache\":{\"";
+static NSString * const ProfileFolderEndAnchor = @"\":{\"active_time\"";
 static const NSString *saltString = @"saltysalt";
 static const NSString *IV = @"                ";
+NS_ASSUME_NONNULL_END
 
 @interface ChromeCookieDecryptor ()
 - (BOOL) checkDatabasePath:(NSString * _Nonnull)path;
@@ -55,7 +59,7 @@ static const NSString *IV = @"                ";
 	if (![self checkDatabasePath:path])
 		@throw [ChromeCookieExtractorException exceptionWithName:@"File not found" reason:@"cookie file not found" userInfo:@{@"Path" : path}];
 	
-	db = [FMDatabase databaseWithPath:path];
+	db = [FMDatabase databaseWithPath:cookiePath];
 	if (![db open])
 		@throw [CookieDecryptorException exceptionWithName:@"Database can not open" reason:@"Chrome Cookie Database Open failed" userInfo:@{@"Database" : db}];
 	
@@ -73,9 +77,9 @@ static const NSString *IV = @"                ";
 	if ((path.length > 1) && ([@"~" isEqualToString:[path substringWithRange:NSMakeRange(0, 1)]]))
 		path = [path stringByExpandingTildeInPath];
 	if (![self checkDatabasePath:path])
-		@throw [CookieDecryptorException exceptionWithName:@"File not found" reason:@"cookie file not found" userInfo:@{@"Path" : path}];
+		@throw [CookieDecryptorException exceptionWithName:@"File not found" reason:@"cookie file not found" userInfo:@{@"Path" : cookiePath}];
 	
-	db = [FMDatabase databaseWithPath:path];
+	db = [FMDatabase databaseWithPath:cookiePath];
 	if (![db open])
 		@throw [CookieDecryptorException exceptionWithName:@"Database can not open" reason:@"Chrome Cookie Database Open failed" userInfo:@{@"Database" : db}];
 	
@@ -88,6 +92,7 @@ static const NSString *IV = @"                ";
 {
 	[db close];
 }// end - (void) dealloc
+
 #pragma mark - messages
 - (nullable NSArray<NSHTTPCookie *> *) cookiesForMatchDomain:(NSString * _Nonnull)domain
 {
@@ -103,8 +108,22 @@ static const NSString *IV = @"                ";
 - (BOOL) checkDatabasePath:(NSString * _Nonnull)path
 {
 	NSFileManager *fm = [NSFileManager defaultManager];
+	NSString *localSiteFilePath = [path stringByAppendingString:ChromeLocalSite];
+	NSError *err = nil;
+	NSString *localSite = [NSString stringWithContentsOfFile:localSiteFilePath encoding:NSUTF8StringEncoding error:&err];
+	if (!err && localSite) {
+		NSRange searchRange = NSMakeRange(0, localSite.length);
+		NSRange startRange = [localSite rangeOfString:ProfileFolderStartAnchor options:NSLiteralSearch range:searchRange];
+		NSRange endRange = [localSite rangeOfString:ProfileFolderEndAnchor options:NSLiteralSearch range:searchRange];
+		NSRange profileFolderRange = NSMakeRange(startRange.location + startRange.length, endRange.location - startRange.location - startRange.length);
+		NSString *profileFolder = [localSite substringWithRange:profileFolderRange];
+		cookiePath = [path stringByAppendingString:[NSString stringWithFormat:ChromeCookiePath, profileFolder]];
+		NSLog(@"%@", cookiePath);
+
+		return [fm fileExistsAtPath:cookiePath];
+	}// end if noerror
 	
-	return [fm fileExistsAtPath:path];
+	return NO;
 }// end - (BOOL) checkDatabasePath:(NSString * _Nonnull)path
 
 - (nonnull NSData *) getChromePassword

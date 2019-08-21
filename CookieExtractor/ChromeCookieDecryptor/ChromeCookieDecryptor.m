@@ -124,7 +124,6 @@ NS_ASSUME_NONNULL_END
 		NSRange profileFolderRange = NSMakeRange(startRange.location + startRange.length, endRange.location - startRange.location - startRange.length);
 		NSString *profileFolder = [localSite substringWithRange:profileFolderRange];
 		cookiePath = [path stringByAppendingString:[NSString stringWithFormat:ChromeCookiePath, profileFolder]];
-		NSLog(@"%@", cookiePath);
 
 		return [fm fileExistsAtPath:cookiePath];
 	}// end if noerror

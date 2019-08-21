@@ -116,6 +116,11 @@ NS_ASSUME_NONNULL_END
 		NSRange searchRange = NSMakeRange(0, localSite.length);
 		NSRange endRange = [localSite rangeOfString:ProfileFolderEndAnchor options:NSLiteralSearch range:searchRange];
 		searchRange = NSMakeRange(0, endRange.location);
+		NSRange startRange = [localSite rangeOfString:ProfileFolderStartAnchor1 options:(NSLiteralSearch + NSBackwardsSearch) range:searchRange];
+		if (startRange.location == NSNotFound) {
+			startRange = [localSite rangeOfString:ProfileFolderStartAnchor2 options:(NSLiteralSearch + NSBackwardsSearch) range:searchRange];
+			if (startRange.location == NSNotFound) { return NO; }
+		}// end if anchor1 string is not found
 		NSRange profileFolderRange = NSMakeRange(startRange.location + startRange.length, endRange.location - startRange.location - startRange.length);
 		NSString *profileFolder = [localSite substringWithRange:profileFolderRange];
 		cookiePath = [path stringByAppendingString:[NSString stringWithFormat:ChromeCookiePath, profileFolder]];

@@ -114,8 +114,8 @@ NS_ASSUME_NONNULL_END
 	NSString *localSite = [NSString stringWithContentsOfFile:localSiteFilePath encoding:NSUTF8StringEncoding error:&err];
 	if (!err && localSite) {
 		NSRange searchRange = NSMakeRange(0, localSite.length);
-		NSRange startRange = [localSite rangeOfString:ProfileFolderStartAnchor options:NSLiteralSearch range:searchRange];
 		NSRange endRange = [localSite rangeOfString:ProfileFolderEndAnchor options:NSLiteralSearch range:searchRange];
+		searchRange = NSMakeRange(0, endRange.location);
 		NSRange profileFolderRange = NSMakeRange(startRange.location + startRange.length, endRange.location - startRange.location - startRange.length);
 		NSString *profileFolder = [localSite substringWithRange:profileFolderRange];
 		cookiePath = [path stringByAppendingString:[NSString stringWithFormat:ChromeCookiePath, profileFolder]];

@@ -1,4 +1,5 @@
 *.xcscmblueprint
 IDEWorkspaceChecks.plist
 fmdb/
+SQLite3/
 Binaries/

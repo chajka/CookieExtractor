@@ -1,5 +1,4 @@
 *.xcscmblueprint
 IDEWorkspaceChecks.plist
-External/
-SQLite3/
-FMDB/
+External/SQLite3/sqlite3.c
+External/SQLite3/sqlite3.h

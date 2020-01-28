@@ -140,11 +140,11 @@ static NSString * const ColumnNameValue =				@"value";
 
 - (nullable NSArray<NSHTTPCookie *> *)peekCookiesForDomain:(NSString * _Nonnull)domain mode:(PeekMode)mode
 {
-	NSString *query = (mode == PeekModeMatch) ?
+	NSString * const query = (mode == PeekModeMatch) ?
 		[NSString stringWithFormat:SQLMatchString, domain] :
 		[NSString stringWithFormat:SQLLikeString, domain];
 
-	FMResultSet *result = [db executeQuery:query];
+	FMResultSet * const result = [db executeQuery:query];
 	NSHTTPCookie *cookie;
 	NSMutableArray<NSHTTPCookie *> *tmpCookie = [NSMutableArray array];
 	while ([result next]) {

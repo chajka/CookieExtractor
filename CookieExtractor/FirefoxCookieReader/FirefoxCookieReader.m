@@ -31,6 +31,7 @@ static NSString * const ColumnNameValue =				@"value";
 
 @interface FirefoxCookieReader ()
 - (nullable NSString *) copyCookieFile;
+- (nullable FMDatabase *) openCookieDatabase: (NSString * const) path;
 - (nullable NSString *) copyOlsStyleDatabase;
 - (nullable NSArray<NSHTTPCookie *> *)peekCookiesForDomain:(NSString * _Nonnull)domain mode:(PeekMode)mode;
 @end
@@ -67,6 +68,16 @@ static NSString * const ColumnNameValue =				@"value";
 }// end - (nullable NSArray<NSHTTPCookie *> *)cookiesLikeDomain:(NSString * _Nonnull)domain
 
 #pragma mark - private
+- (nullable FMDatabase *) openCookieDatabase: (NSString * const) path
+{
+	FMDatabase *database = [FMDatabase databaseWithPath:path];
+	if (![database open])
+		return nil;
+	databaseForPeek = path;
+	
+	return database;
+}// end - (FMDatabase *) openCookieDatabase: (NSString * const) path
+
 - (nullable NSString *) copyCookieFile
 {
 	NSError * error = nil;

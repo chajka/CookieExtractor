@@ -16,6 +16,7 @@ typedef NS_ENUM(NSUInteger, PeekMode) {
 
 static NSString * const MultiProfileQuery =				@"^Path=Profiles/([^\\n]+)\\nDefault=1$";
 static NSString * const SingleProfileQuery =			@"Path=Profiles/(.*\\..*)";
+static NSString * const DefaultProfileRegex =			@"^Default=Profiles/(.*)$";
 static NSString * const FirefoxINIPath =				@"~/Library/Application Support/Firefox/profiles.ini";
 static NSString * const FirefoxCookiePath =				@"~/Library/Application Support/Firefox/Profiles/%@/cookies.sqlite";
 static NSString * const FirefoxPeekableCookiePath =		@"~/Library/Application Support/Firefox/Profiles/%@/cookies_peek.sqlite";

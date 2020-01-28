@@ -31,6 +31,7 @@ static NSString * const ColumnNameValue =				@"value";
 
 @interface FirefoxCookieReader ()
 - (nullable FMDatabase *) openDatabase;
+- (nullable NSString *) copyCookieFile;
 - (nullable NSArray<NSHTTPCookie *> *)peekCookiesForDomain:(NSString * _Nonnull)domain mode:(PeekMode)mode;
 @end
 
@@ -67,6 +68,35 @@ static NSString * const ColumnNameValue =				@"value";
 
 #pragma mark - private
 - (nullable FMDatabase *) openDatabase
+- (nullable NSString *) copyCookieFile
+{
+	NSError * error = nil;
+	NSString * const firefoxIniPath = [FirefoxINIPath stringByExpandingTildeInPath];
+	NSString * const firefoxIniFile = [NSString stringWithContentsOfFile:firefoxIniPath encoding:NSUTF8StringEncoding error:&error];
+	if (error) { return nil; }
+
+	error = nil;
+	NSRegularExpression * const defaultProfRegex = [NSRegularExpression regularExpressionWithPattern:DefaultProfileRegex options:(NSRegularExpressionCaseInsensitive|NSRegularExpressionAnchorsMatchLines) error:&error];
+	if (error) { return nil; }
+
+	NSUInteger const matchCount = [defaultProfRegex numberOfMatchesInString:firefoxIniFile options:NSMatchingWithTransparentBounds range:NSMakeRange(0, firefoxIniFile.length)];
+	if (matchCount == 0) { return nil; }
+
+	NSTextCheckingResult * const result = [defaultProfRegex firstMatchInString:firefoxIniFile options:NSMatchingWithTransparentBounds range:NSMakeRange(0, firefoxIniFile.length)];
+	NSRange const profileRange = [result rangeAtIndex:1];
+	NSString * const currentProfile = [firefoxIniFile substringWithRange:profileRange];
+	NSString * const cookieFilePath = [[NSString stringWithFormat:FirefoxCookiePath, currentProfile] stringByExpandingTildeInPath];
+	NSString * const cookieForPeek = [[NSString stringWithFormat:FirefoxPeekableCookiePath, currentProfile] stringByExpandingTildeInPath];
+
+	error = nil;
+	[NSFileManager.defaultManager copyItemAtPath:cookieFilePath toPath:cookieForPeek error:&error];
+	if (error) {
+		return nil;
+	} else {
+		return cookieForPeek;
+	}// end if copy cookie file is success or not
+}// end - (nullable NSString *) copyCookieFile
+
 {
 	NSError *err = nil;
 	NSString *firefoxIniPath = [FirefoxINIPath stringByExpandingTildeInPath];

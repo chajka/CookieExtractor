@@ -16,6 +16,7 @@ typedef NS_ENUM(NSUInteger, PeekMode) {
 
 static NSString * const MultiProfileQuery =				@"^Path=Profiles/([^\\n]+)\\nDefault=1$";
 static NSString * const SingleProfileQuery =			@"Path=Profiles/(.*\\..*)";
+static NSString * const DefaultProfileRegex =			@"^Default=Profiles/(.*)$";
 static NSString * const FirefoxINIPath =				@"~/Library/Application Support/Firefox/profiles.ini";
 static NSString * const FirefoxCookiePath =				@"~/Library/Application Support/Firefox/Profiles/%@/cookies.sqlite";
 static NSString * const FirefoxPeekableCookiePath =		@"~/Library/Application Support/Firefox/Profiles/%@/cookies_peek.sqlite";
@@ -29,7 +30,9 @@ static NSString * const ColumnNameName =				@"name";
 static NSString * const ColumnNameValue =				@"value";
 
 @interface FirefoxCookieReader ()
-- (nullable FMDatabase *) openDatabase;
+- (nullable NSString *) copyCookieFile;
+- (nullable FMDatabase *) openCookieDatabase: (NSString * const) path;
+- (nullable NSString *) copyOlsStyleDatabase;
 - (nullable NSArray<NSHTTPCookie *> *)peekCookiesForDomain:(NSString * _Nonnull)domain mode:(PeekMode)mode;
 @end
 
@@ -40,7 +43,12 @@ static NSString * const ColumnNameValue =				@"value";
 - (nonnull instancetype) init
 {
 	self = [super init];
-	db = [self openDatabase];
+	if (!self) { return self; }
+	NSString * _Nullable cookieForPeek = [self copyCookieFile];
+	if (!cookieForPeek) {
+		cookieForPeek = [self copyOlsStyleDatabase];
+	}// end if new style ini file or not
+	db = [self openCookieDatabase: cookieForPeek];
 
 	return self;
 }// end - (nonnull instancetype) init
@@ -65,11 +73,50 @@ static NSString * const ColumnNameValue =				@"value";
 }// end - (nullable NSArray<NSHTTPCookie *> *)cookiesLikeDomain:(NSString * _Nonnull)domain
 
 #pragma mark - private
-- (nullable FMDatabase *) openDatabase
+- (nullable FMDatabase *) openCookieDatabase: (NSString * const) path
+{
+	FMDatabase *database = [FMDatabase databaseWithPath:path];
+	if (![database open])
+		return nil;
+	databaseForPeek = path;
+	
+	return database;
+}// end - (FMDatabase *) openCookieDatabase: (NSString * const) path
+
+- (nullable NSString *) copyCookieFile
+{
+	NSError * error = nil;
+	NSString * const firefoxIniPath = [FirefoxINIPath stringByExpandingTildeInPath];
+	NSString * const firefoxIniFile = [NSString stringWithContentsOfFile:firefoxIniPath encoding:NSUTF8StringEncoding error:&error];
+	if (error) { return nil; }
+
+	error = nil;
+	NSRegularExpression * const defaultProfRegex = [NSRegularExpression regularExpressionWithPattern:DefaultProfileRegex options:(NSRegularExpressionCaseInsensitive|NSRegularExpressionAnchorsMatchLines) error:&error];
+	if (error) { return nil; }
+
+	NSUInteger const matchCount = [defaultProfRegex numberOfMatchesInString:firefoxIniFile options:NSMatchingWithTransparentBounds range:NSMakeRange(0, firefoxIniFile.length)];
+	if (matchCount == 0) { return nil; }
+
+	NSTextCheckingResult * const result = [defaultProfRegex firstMatchInString:firefoxIniFile options:NSMatchingWithTransparentBounds range:NSMakeRange(0, firefoxIniFile.length)];
+	NSRange const profileRange = [result rangeAtIndex:1];
+	NSString * const currentProfile = [firefoxIniFile substringWithRange:profileRange];
+	NSString * const cookieFilePath = [[NSString stringWithFormat:FirefoxCookiePath, currentProfile] stringByExpandingTildeInPath];
+	NSString * const cookieForPeek = [[NSString stringWithFormat:FirefoxPeekableCookiePath, currentProfile] stringByExpandingTildeInPath];
+
+	error = nil;
+	[NSFileManager.defaultManager copyItemAtPath:cookieFilePath toPath:cookieForPeek error:&error];
+	if (error) {
+		return nil;
+	} else {
+		return cookieForPeek;
+	}// end if copy cookie file is success or not
+}// end - (nullable NSString *) copyCookieFile
+
+- (nullable NSString *) copyOlsStyleDatabase
 {
 	NSError *err = nil;
-	NSString *firefoxIniPath = [FirefoxINIPath stringByExpandingTildeInPath];
-	NSString *firefoxIniFile = [NSString stringWithContentsOfFile:firefoxIniPath encoding:NSUTF8StringEncoding error:&err];
+	NSString * const firefoxIniPath = [FirefoxINIPath stringByExpandingTildeInPath];
+	NSString * const firefoxIniFile = [NSString stringWithContentsOfFile:firefoxIniPath encoding:NSUTF8StringEncoding error:&err];
 	
 	err = nil;
 	NSRange profileRange;
@@ -83,29 +130,26 @@ static NSString * const ColumnNameValue =				@"value";
 		NSTextCheckingResult *result = [activeProfileRegex firstMatchInString:firefoxIniFile options:NSMatchingWithTransparentBounds range:NSMakeRange(0, firefoxIniFile.length)];
 		profileRange = [result rangeAtIndex:1];
 	}// end if multi profile or single profile
-	NSString *profileName = [firefoxIniFile substringWithRange:profileRange];
-	NSString *profile = [NSString stringWithFormat:FirefoxCookiePath, profileName];
-	NSString *peekableProfile = [NSString stringWithFormat:FirefoxPeekableCookiePath, profileName];
-	NSString *cookiePath = [profile stringByExpandingTildeInPath];
-	databaseForPeek = [peekableProfile stringByExpandingTildeInPath];
-	NSFileManager *fm = [NSFileManager defaultManager];
+	NSString * const profileName = [firefoxIniFile substringWithRange:profileRange];
+	NSString * const profile = [NSString stringWithFormat:FirefoxCookiePath, profileName];
+	NSString * const peekableProfile = [NSString stringWithFormat:FirefoxPeekableCookiePath, profileName];
+	NSString * const cookiePath = [profile stringByExpandingTildeInPath];
+	NSString * const cookieForPeek = [peekableProfile stringByExpandingTildeInPath];
+	NSFileManager * const fm = NSFileManager.defaultManager;
 	err = nil;
-	[fm copyItemAtPath:cookiePath toPath:databaseForPeek error:&err];
+	[fm copyItemAtPath:cookiePath toPath:cookieForPeek error:&err];
 	if (err) { return nil; }
-	FMDatabase *database = [FMDatabase databaseWithPath:databaseForPeek];
-	if (![database open])
-		return nil;
 	
-	return database;
-}// end - (nullable FMDatabase *) openDatabase
+	return cookieForPeek;
+}// end - (nullable FMDatabase *) copyOlsStyleDatabase
 
 - (nullable NSArray<NSHTTPCookie *> *)peekCookiesForDomain:(NSString * _Nonnull)domain mode:(PeekMode)mode
 {
-	NSString *query = (mode == PeekModeMatch) ?
+	NSString * const query = (mode == PeekModeMatch) ?
 		[NSString stringWithFormat:SQLMatchString, domain] :
 		[NSString stringWithFormat:SQLLikeString, domain];
 
-	FMResultSet *result = [db executeQuery:query];
+	FMResultSet * const result = [db executeQuery:query];
 	NSHTTPCookie *cookie;
 	NSMutableArray<NSHTTPCookie *> *tmpCookie = [NSMutableArray array];
 	while ([result next]) {

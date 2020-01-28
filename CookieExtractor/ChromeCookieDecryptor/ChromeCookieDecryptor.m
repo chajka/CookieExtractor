@@ -108,10 +108,10 @@ NS_ASSUME_NONNULL_END
 #pragma mark - private
 - (BOOL) checkDatabasePath:(NSString * _Nonnull)path
 {
-	NSFileManager *fm = [NSFileManager defaultManager];
-	NSString *localSiteFilePath = [path stringByAppendingString:ChromeLocalSite];
+	NSFileManager * const fm = [NSFileManager defaultManager];
+	NSString * const localSiteFilePath = [path stringByAppendingString:ChromeLocalSite];
 	NSError *err = nil;
-	NSString *localSite = [NSString stringWithContentsOfFile:localSiteFilePath encoding:NSUTF8StringEncoding error:&err];
+	NSString * const localSite = [NSString stringWithContentsOfFile:localSiteFilePath encoding:NSUTF8StringEncoding error:&err];
 	if (!err && localSite) {
 		NSRange searchRange = NSMakeRange(0, localSite.length);
 		NSRange endRange = [localSite rangeOfString:ProfileFolderEndAnchor options:NSLiteralSearch range:searchRange];

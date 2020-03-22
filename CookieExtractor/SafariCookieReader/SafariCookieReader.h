@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @interface SafariCookieReader : NSObject {
+	BOOL					isAccessible;
 	NSData					*cookieData;
 }
 

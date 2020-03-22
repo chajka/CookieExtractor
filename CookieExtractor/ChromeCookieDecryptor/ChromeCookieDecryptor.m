@@ -53,19 +53,21 @@ NS_ASSUME_NONNULL_END
 	self = [super init];
 	if (!self)
 		@throw [ChromeCookieExtractorException exceptionWithName:@"Initialize error" reason:@"Super returned nil" userInfo:nil];
+	isAccessible = NO;
 	serviceName = [ChromeAccountName stringByAppendingString:ServiceName];
-	
+
 	if ((path.length > 1) && ([@"~" isEqualToString:[path substringWithRange:NSMakeRange(0, 1)]]))
 		path = [path stringByExpandingTildeInPath];
 	if (![self checkDatabasePath:path])
 		@throw [ChromeCookieExtractorException exceptionWithName:@"File not found" reason:@"cookie file not found" userInfo:@{@"Path" : path}];
-	
+
 	db = [FMDatabase databaseWithPath:cookiePath];
 	if (![db open])
 		@throw [CookieDecryptorException exceptionWithName:@"Database can not open" reason:@"Chrome Cookie Database Open failed" userInfo:@{@"Database" : db}];
-	
+	isAccessible = YES;
+
 	password = [self getChromePassword];
-	
+
 	return self;
 }// end - (nonnull instancetype) initWithCookiePath:(NSString * _Nonnull)path
 
@@ -74,18 +76,21 @@ NS_ASSUME_NONNULL_END
 	self = [super init];
 	if (!self)
 		@throw [CookieDecryptorException exceptionWithName:@"Initialize error" reason:@"Super returned nil" userInfo:nil];
+	isAccessible = NO;
 	serviceName = [name stringByAppendingString:ServiceName];
+
 	if ((path.length > 1) && ([@"~" isEqualToString:[path substringWithRange:NSMakeRange(0, 1)]]))
 		path = [path stringByExpandingTildeInPath];
 	if (![self checkDatabasePath:path])
 		@throw [CookieDecryptorException exceptionWithName:@"File not found" reason:@"cookie file not found" userInfo:@{@"Path" : cookiePath}];
-	
+
 	db = [FMDatabase databaseWithPath:cookiePath];
 	if (![db open])
 		@throw [CookieDecryptorException exceptionWithName:@"Database can not open" reason:@"Chrome Cookie Database Open failed" userInfo:@{@"Database" : db}];
-	
+	isAccessible = YES;
+
 	password = [self getBrowserPassword:name];
-	
+
 	return self;
 }// end - (nonnull instancetype) initWithBrowserName:(NSString *_Nonnull)name cookiePath:(NSString * _Nonnull)path
 
@@ -145,7 +150,7 @@ NS_ASSUME_NONNULL_END
 	
 	NSData *pass = [[NSData alloc] initWithBytes:passwordData length:passwordLength];
 	SecKeychainItemFreeContent(NULL, passwordData);
-	
+
 	return pass;
 }// end - (nonnull NSString *) getChromePassword
 

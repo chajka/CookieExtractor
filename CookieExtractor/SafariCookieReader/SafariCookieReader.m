@@ -19,8 +19,10 @@ static NSString * const SafariCookiePath = @"~/Library/Cookies/Cookies.binarycoo
 {
 	self = [super init];
 	if (self) {
+		isAccessible = NO;
 		NSString *safariCookieFullPath = [SafariCookiePath stringByExpandingTildeInPath];
 		cookieData = [[NSData alloc]initWithContentsOfFile:safariCookieFullPath];
+		if (cookieData) isAccessible = YES;
 	}// end if self
 
 	return self;

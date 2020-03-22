@@ -33,6 +33,7 @@ static NSString * const SafariCookiePath = @"~/Library/Cookies/Cookies.binarycoo
 	self = [super init];
 	if (self) {
 		cookieData = [data copy];
+		isAccessible = YES;
 	}// end if self
 	
 	return self;

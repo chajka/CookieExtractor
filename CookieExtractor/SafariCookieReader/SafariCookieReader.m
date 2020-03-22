@@ -45,6 +45,8 @@ static NSString * const SafariCookiePath = @"~/Library/Cookies/Cookies.binarycoo
 #pragma mark - messages
 - (nullable NSArray<NSHTTPCookie *> *)parseCookies
 {
+	if (!isAccessible) return nil;
+
 	NSMutableArray<NSHTTPCookie *> *cookies = [NSMutableArray array];
 	PageSlicer *slicer = [[PageSlicer alloc] initWithData:cookieData];
 	NSArray *pages = [slicer slicePage];
@@ -69,6 +71,8 @@ static NSString * const SafariCookiePath = @"~/Library/Cookies/Cookies.binarycoo
 
 - (nullable NSArray<NSHTTPCookie *> *)parseCookiesForMatchDomain:(NSString * _Nonnull)domain
 {
+	if (!isAccessible) return nil;
+	
 	NSMutableArray<NSHTTPCookie *> *cookies = [NSMutableArray array];
 	PageSlicer *slicer = [[PageSlicer alloc] initWithData:cookieData];
 	NSArray *pages = [slicer slicePage];
@@ -94,6 +98,8 @@ static NSString * const SafariCookiePath = @"~/Library/Cookies/Cookies.binarycoo
 
 - (nullable NSArray<NSHTTPCookie *> *)parseCookiesForLikeDomain:(NSString * _Nonnull)domain
 {
+	if (!isAccessible) return nil;
+	
 	NSMutableArray<NSHTTPCookie *> *cookies = [NSMutableArray array];
 	PageSlicer *slicer = [[PageSlicer alloc] initWithData:cookieData];
 	NSArray *pages = [slicer slicePage];

@@ -53,19 +53,21 @@ NS_ASSUME_NONNULL_END
 	self = [super init];
 	if (!self)
 		@throw [ChromeCookieExtractorException exceptionWithName:@"Initialize error" reason:@"Super returned nil" userInfo:nil];
+	isAccessible = NO;
 	serviceName = [ChromeAccountName stringByAppendingString:ServiceName];
-	
+
 	if ((path.length > 1) && ([@"~" isEqualToString:[path substringWithRange:NSMakeRange(0, 1)]]))
 		path = [path stringByExpandingTildeInPath];
 	if (![self checkDatabasePath:path])
 		@throw [ChromeCookieExtractorException exceptionWithName:@"File not found" reason:@"cookie file not found" userInfo:@{@"Path" : path}];
-	
+
 	db = [FMDatabase databaseWithPath:cookiePath];
 	if (![db open])
 		@throw [CookieDecryptorException exceptionWithName:@"Database can not open" reason:@"Chrome Cookie Database Open failed" userInfo:@{@"Database" : db}];
-	
+	isAccessible = YES;
+
 	password = [self getChromePassword];
-	
+
 	return self;
 }// end - (nonnull instancetype) initWithCookiePath:(NSString * _Nonnull)path
 
@@ -74,18 +76,21 @@ NS_ASSUME_NONNULL_END
 	self = [super init];
 	if (!self)
 		@throw [CookieDecryptorException exceptionWithName:@"Initialize error" reason:@"Super returned nil" userInfo:nil];
+	isAccessible = NO;
 	serviceName = [name stringByAppendingString:ServiceName];
+
 	if ((path.length > 1) && ([@"~" isEqualToString:[path substringWithRange:NSMakeRange(0, 1)]]))
 		path = [path stringByExpandingTildeInPath];
 	if (![self checkDatabasePath:path])
 		@throw [CookieDecryptorException exceptionWithName:@"File not found" reason:@"cookie file not found" userInfo:@{@"Path" : cookiePath}];
-	
+
 	db = [FMDatabase databaseWithPath:cookiePath];
 	if (![db open])
 		@throw [CookieDecryptorException exceptionWithName:@"Database can not open" reason:@"Chrome Cookie Database Open failed" userInfo:@{@"Database" : db}];
-	
+	isAccessible = YES;
+
 	password = [self getBrowserPassword:name];
-	
+
 	return self;
 }// end - (nonnull instancetype) initWithBrowserName:(NSString *_Nonnull)name cookiePath:(NSString * _Nonnull)path
 
@@ -97,11 +102,15 @@ NS_ASSUME_NONNULL_END
 #pragma mark - messages
 - (nullable NSArray<NSHTTPCookie *> *) cookiesForMatchDomain:(NSString * _Nonnull)domain
 {
+	if (!isAccessible) return nil;
+
 	return [self peekCookiesForDomain:domain mode:PeekModeMatch];
 }// end - (nullable NSArray<NSHTTPCookie *> *) cookiesForLikeDomain:(NSString * _Nonnull)domain
 
 - (nullable NSArray<NSHTTPCookie *> *) cookiesForLikeDomain:(NSString * _Nonnull)domain
 {
+	if (!isAccessible) return nil;
+
 	return [self peekCookiesForDomain:domain mode:PeekModeLike];
 }// end - (nullable NSArray<NSHTTPCookie *> *) cookiesForLikeDomain:(NSString * _Nonnull)domain
 
@@ -145,7 +154,7 @@ NS_ASSUME_NONNULL_END
 	
 	NSData *pass = [[NSData alloc] initWithBytes:passwordData length:passwordLength];
 	SecKeychainItemFreeContent(NULL, passwordData);
-	
+
 	return pass;
 }// end - (nonnull NSString *) getChromePassword
 
@@ -160,10 +169,10 @@ NS_ASSUME_NONNULL_END
 											&passwordLength, &passwordData, NULL);
 	if (result != noErr)
 		@throw [CookieDecryptorException exceptionWithName:@"Password not found" reason:@"No password in keychain" userInfo:nil];
-	
+
 	NSData *pass = [[NSData alloc] initWithBytes:passwordData length:passwordLength];
 	SecKeychainItemFreeContent(NULL, passwordData);
-	
+
 	return pass;
 }// end - (nonnull NSString *) getBrowserPassword:(NSString * _Nonnull)browserName;
 
@@ -180,27 +189,26 @@ NS_ASSUME_NONNULL_END
 	NSAssert(result == kCCSuccess, @"Unable to create AES key for password: %d", result);
 	if (result != kCCSuccess)
 		@throw [NSException exceptionWithName:@"Cryptor Fail" reason:@"Cryptor create fail" userInfo:nil];
-	
+
 	NSData *iv = [IV dataUsingEncoding:NSUTF8StringEncoding];
 	
 	CCCryptorStatus status = CCCryptorCreate(kCCDecrypt, kCCAlgorithmAES128, kCCOptionPKCS7Padding, key.bytes, key.length, iv.bytes, &cryptor);
 	if (status != kCCSuccess || cryptor == NULL)
 		@throw [NSException exceptionWithName:@"Cryptor Fail" reason:@"Cryptor create fail" userInfo:nil];
-	
+
 	size_t available;
 	NSMutableData *buffer = [NSMutableData dataWithLength:1024];
 	CCCryptorUpdate(cryptor, chiper.bytes, chiper.length, buffer.mutableBytes, buffer.length, &available);
 	NSData *data = [buffer subdataWithRange:NSMakeRange(0, available)];
 	NSMutableString *decodedString = [NSMutableString string];
 	[decodedString appendString:[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]];
-	
+
 	CCCryptorFinal(cryptor, buffer.mutableBytes, buffer.length, &available);
 	if (available) {
 		data = [buffer subdataWithRange:NSMakeRange(0, available)];
 		[decodedString appendString:[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]];
 	}// end if remain string data available
-	
-	
+
 	return [NSString stringWithString:decodedString];
 }// end - (void) setupDecrypt
 
@@ -210,12 +218,12 @@ NS_ASSUME_NONNULL_END
 		[NSString stringWithFormat:SQLMatchString, domain] :
 		[NSString stringWithFormat:SQLLikeString, domain];
 	FMResultSet *results = [db executeQuery:query];
-	
+
 	NSMutableArray<NSHTTPCookie *> *cookies = [NSMutableArray array];
 	while([results next]) {
 		NSData *encrypted = [results dataForColumn:ColumnNameEncValue];
 		NSString *decrypted = [self decrypt:encrypted];
-		
+
 		NSDictionary<NSHTTPCookiePropertyKey, NSString *>
 		*properties = @{
 						NSHTTPCookieDomain : [results stringForColumn:ColumnNameHost],
@@ -227,7 +235,7 @@ NS_ASSUME_NONNULL_END
 	}
 	if (cookies.count)
 		return [NSArray arrayWithArray:cookies];
-	
+
 	return nil;
 }// end - (NSArray<NSHTTPCookie *> *)peekCookiesForDomain:(NSString * _Nonnull)domain
 

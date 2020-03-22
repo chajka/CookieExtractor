@@ -44,11 +44,13 @@ static NSString * const ColumnNameValue =				@"value";
 {
 	self = [super init];
 	if (!self) { return self; }
+	isAccessible = NO;
 	NSString * _Nullable cookieForPeek = [self copyCookieFile];
 	if (!cookieForPeek) {
 		cookieForPeek = [self copyOlsStyleDatabase];
 	}// end if new style ini file or not
 	db = [self openCookieDatabase: cookieForPeek];
+	if (db) isAccessible = YES;
 
 	return self;
 }// end - (nonnull instancetype) init
@@ -65,10 +67,14 @@ static NSString * const ColumnNameValue =				@"value";
 #pragma mark - messages
 - (nullable NSArray<NSHTTPCookie *> *)cookiesMatchDomain:(NSString * _Nonnull)domain
 {
+	if (!isAccessible) return nil;
+
 	return [self peekCookiesForDomain:domain mode:PeekModeMatch];
 }// end - (nullable NSArray<NSHTTPCookie *> *)cookiesMatchDomain:(NSString * _Nonnull)domain
 - (nullable NSArray<NSHTTPCookie *> *)cookiesLikeDomain:(NSString * _Nonnull)domain
 {
+	if (!isAccessible) return nil;
+
 	return [self peekCookiesForDomain:domain mode:PeekModeLike];
 }// end - (nullable NSArray<NSHTTPCookie *> *)cookiesLikeDomain:(NSString * _Nonnull)domain
 

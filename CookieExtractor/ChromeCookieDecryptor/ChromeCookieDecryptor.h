@@ -10,6 +10,8 @@
 
 @class FMDatabase;
 @interface ChromeCookieDecryptor : NSObject {
+	BOOL													isAccessible;
+
 	FMDatabase												*db;
 	
 	NSData													*password;

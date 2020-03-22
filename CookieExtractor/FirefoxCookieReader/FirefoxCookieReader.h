@@ -10,6 +10,7 @@
 
 @class FMDatabase;
 @interface FirefoxCookieReader : NSObject {
+	BOOL												isAccessible;
 	FMDatabase											*db;
 	NSString											*databaseForPeek;
 }

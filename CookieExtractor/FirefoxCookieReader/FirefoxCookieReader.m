@@ -67,10 +67,14 @@ static NSString * const ColumnNameValue =				@"value";
 #pragma mark - messages
 - (nullable NSArray<NSHTTPCookie *> *)cookiesMatchDomain:(NSString * _Nonnull)domain
 {
+	if (!isAccessible) return nil;
+
 	return [self peekCookiesForDomain:domain mode:PeekModeMatch];
 }// end - (nullable NSArray<NSHTTPCookie *> *)cookiesMatchDomain:(NSString * _Nonnull)domain
 - (nullable NSArray<NSHTTPCookie *> *)cookiesLikeDomain:(NSString * _Nonnull)domain
 {
+	if (!isAccessible) return nil;
+
 	return [self peekCookiesForDomain:domain mode:PeekModeLike];
 }// end - (nullable NSArray<NSHTTPCookie *> *)cookiesLikeDomain:(NSString * _Nonnull)domain
 

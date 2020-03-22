@@ -44,11 +44,13 @@ static NSString * const ColumnNameValue =				@"value";
 {
 	self = [super init];
 	if (!self) { return self; }
+	isAccessible = NO;
 	NSString * _Nullable cookieForPeek = [self copyCookieFile];
 	if (!cookieForPeek) {
 		cookieForPeek = [self copyOlsStyleDatabase];
 	}// end if new style ini file or not
 	db = [self openCookieDatabase: cookieForPeek];
+	if (db) isAccessible = YES;
 
 	return self;
 }// end - (nonnull instancetype) init

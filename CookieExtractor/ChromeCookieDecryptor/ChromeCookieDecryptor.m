@@ -31,8 +31,8 @@ static NSString * const SQLLikeString = @"select * from cookies where host_key l
 
 static NSString * const ProfileFolderStartAnchor1 = @"\"profile\":{\"info_cache\":{\"";
 static NSString * const ProfileFolderStartAnchor2 = @"\"info_cache\":{\"";
-static NSString * const ProfileFolderEndAnchor = @"\":{\"active_time\"";
 static NSString * const ProfileFolderEndAnchor2 = @"\":{\"";
+static NSString * const ProfileFolderEndAnchor = @"\"last_active_profiles\":[\"";
 static const NSString *saltString = @"saltysalt";
 static const NSString *IV = @"                ";
 NS_ASSUME_NONNULL_END

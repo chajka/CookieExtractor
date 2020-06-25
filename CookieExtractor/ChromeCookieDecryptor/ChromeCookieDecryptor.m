@@ -124,6 +124,9 @@ NS_ASSUME_NONNULL_END
 	NSMutableArray<NSString *> *activeProfile = [NSMutableArray arrayWithArray:[profile valueForKey:ChromeActiveProfileKey]];
 	[activeProfile addObject:ChromeCookiePath];
 	cookiePath = [path stringByAppendingPathComponent:[NSString pathWithComponents:activeProfile]];
+	NSFileManager * const fm = [NSFileManager defaultManager];
+
+	return [fm fileExistsAtPath:cookiePath];
 }// end - (BOOL) checkDatabasePath:(NSString * _Nonnull)path
 
 - (nonnull NSData *) getChromePassword

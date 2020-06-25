@@ -238,7 +238,11 @@ NSUInteger static DoubleByteLength =									8;
 		NSUInteger currentPageSize = 0;
 		for (currentPage = 0; currentPage < numberOfPages; currentPage++) {
 			currentPageSize = [self readIntBigEndian];
-			pageSizes[currentPage] = [NSNumber numberWithInteger:currentPageSize];
+			if (@available(macOS 10.8, *)) {
+				pageSizes[currentPage] = [NSNumber numberWithInteger:currentPageSize];
+			} else {
+				[pageSizes replaceObjectAtIndex:currentPage withObject:[NSNumber numberWithInteger:currentPageSize]];
+			}// end if @available macOS 10.8 or grator or not
 		}// end for each page size
 		// slice pages
 		NSMutableArray<CookiePage *> *cookiePages = [NSMutableArray arrayWithCapacity:numberOfPages];

@@ -116,42 +116,8 @@ NS_ASSUME_NONNULL_END
 #pragma mark - private
 - (BOOL) checkDatabasePath:(NSString * _Nonnull)path
 {
-	NSFileManager * const fm = [NSFileManager defaultManager];
 	NSString * const localStateFilePath = [path stringByAppendingPathComponent:ChromeLocalState];
 	NSError *err = nil;
-	NSString * const localSite = [NSString stringWithContentsOfFile:localSiteFilePath encoding:NSUTF8StringEncoding error:&err];
-	if (!err && localSite) {
-		NSRange searchRange = NSMakeRange(0, localSite.length);
-		NSRange startRange = [localSite rangeOfString:ProfileFolderStartAnchor1 options:(NSLiteralSearch) range:searchRange];
-		if (startRange.location == NSNotFound) {
-			startRange = [localSite rangeOfString:ProfileFolderStartAnchor2 options:(NSLiteralSearch + NSBackwardsSearch) range:searchRange];
-			if (startRange.location == NSNotFound) { return NO; }
-		}// end if anchor1 string is not found
-
-		NSUInteger startLocation = startRange.location + startRange.length;
-		NSRange endSearchRange = NSMakeRange(startLocation, searchRange.length - startLocation);
-		NSString *tailString = [localSite substringWithRange:endSearchRange];
-		NSRange endRange = [tailString rangeOfString:ProfileFolderEndAnchor options:NSLiteralSearch];
-		NSRange profileFolderRange = NSMakeRange(0, tailString.length);
-		if (endRange.location != NSNotFound) {
-			profileFolderRange.length = endRange.location;
-		} else {
-			endRange = [tailString rangeOfString:ProfileFolderEndAnchor2 options:(NSLiteralSearch)];
-			if (endRange.location != NSNotFound) {
-				profileFolderRange.length = endRange.location;
-			} else {
-				return NO;
-			}// end if found anchor 2 or not
-		}// end if anchor 1 or not
-		
-
-		NSString *profileFolder = [tailString substringWithRange:profileFolderRange];
-		cookiePath = [path stringByAppendingString:[NSString stringWithFormat:ChromeCookiePath, profileFolder]];
-
-		return [fm fileExistsAtPath:cookiePath];
-	}// end if noerror
-	
-	return NO;
 }// end - (BOOL) checkDatabasePath:(NSString * _Nonnull)path
 
 - (nonnull NSData *) getChromePassword

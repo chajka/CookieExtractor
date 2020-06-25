@@ -24,8 +24,8 @@ static NSString * const ColumnNamePath = @"path";
 static NSString * const ColumnNameName = @"name";
 static NSString * const ColumnNameValue = @"value";
 static NSString * const ColumnNameEncValue = @"encrypted_value";
-static NSString * const ChromeCookiePath = @"/%@/Cookies";
 static NSString * const ChromeLocalState = @"Local State";
+static NSString * const ChromeCookiePath = @"Cookies";
 static NSString * const SQLMatchString = @"select * from cookies where host_key is '%@' and name is 'user_session' order by last_access_utc desc;";
 static NSString * const SQLLikeString = @"select * from cookies where host_key like '%%%@' and name is 'user_session' order by last_access_utc desc;";
 

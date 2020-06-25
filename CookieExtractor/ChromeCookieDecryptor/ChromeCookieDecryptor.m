@@ -119,6 +119,7 @@ NS_ASSUME_NONNULL_END
 	NSString * const localStateFilePath = [path stringByAppendingPathComponent:ChromeLocalState];
 	NSError *err = nil;
 	NSData * const localStateData = [NSData dataWithContentsOfFile:localStateFilePath];
+	NSDictionary * const localState = [NSJSONSerialization JSONObjectWithData:localStateData options:(NSJSONReadingMutableLeaves) error:&err];
 }// end - (BOOL) checkDatabasePath:(NSString * _Nonnull)path
 
 - (nonnull NSData *) getChromePassword

@@ -120,6 +120,7 @@ NS_ASSUME_NONNULL_END
 	NSError *err = nil;
 	NSData * const localStateData = [NSData dataWithContentsOfFile:localStateFilePath];
 	NSDictionary * const localState = [NSJSONSerialization JSONObjectWithData:localStateData options:(NSJSONReadingMutableLeaves) error:&err];
+	NSMutableDictionary *profile = [localState valueForKey:ChromeProfileKey];
 }// end - (BOOL) checkDatabasePath:(NSString * _Nonnull)path
 
 - (nonnull NSData *) getChromePassword

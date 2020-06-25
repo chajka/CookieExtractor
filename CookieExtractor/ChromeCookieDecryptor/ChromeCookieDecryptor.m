@@ -123,6 +123,7 @@ NS_ASSUME_NONNULL_END
 	NSMutableDictionary *profile = [localState valueForKey:ChromeProfileKey];
 	NSMutableArray<NSString *> *activeProfile = [NSMutableArray arrayWithArray:[profile valueForKey:ChromeActiveProfileKey]];
 	[activeProfile addObject:ChromeCookiePath];
+	cookiePath = [path stringByAppendingPathComponent:[NSString pathWithComponents:activeProfile]];
 }// end - (BOOL) checkDatabasePath:(NSString * _Nonnull)path
 
 - (nonnull NSData *) getChromePassword

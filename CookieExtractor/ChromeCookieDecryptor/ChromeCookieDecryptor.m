@@ -31,10 +31,6 @@ static NSString * const ChromeCookiePath = @"Cookies";
 static NSString * const SQLMatchString = @"select * from cookies where host_key is '%@' and name is 'user_session' order by last_access_utc desc;";
 static NSString * const SQLLikeString = @"select * from cookies where host_key like '%%%@' and name is 'user_session' order by last_access_utc desc;";
 
-static NSString * const ProfileFolderStartAnchor1 = @"\"profile\":{\"info_cache\":{\"";
-static NSString * const ProfileFolderStartAnchor2 = @"\"info_cache\":{\"";
-static NSString * const ProfileFolderEndAnchor = @"\"last_active_profiles\":[\"";
-static NSString * const ProfileFolderEndAnchor2 = @"\"],\"metrics\"";
 static const NSString *saltString = @"saltysalt";
 static const NSString *IV = @"                ";
 NS_ASSUME_NONNULL_END

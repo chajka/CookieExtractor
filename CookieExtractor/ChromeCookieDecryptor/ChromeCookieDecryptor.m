@@ -24,15 +24,13 @@ static NSString * const ColumnNamePath = @"path";
 static NSString * const ColumnNameName = @"name";
 static NSString * const ColumnNameValue = @"value";
 static NSString * const ColumnNameEncValue = @"encrypted_value";
-static NSString * const ChromeLocalSite = @"/Local State";
-static NSString * const ChromeCookiePath = @"/%@/Cookies";
+static NSString * const ChromeLocalState = @"Local State";
+static NSString * const ChromeProfileKey = @"profile";
+static NSString * const ChromeActiveProfileKey = @"last_active_profiles";
+static NSString * const ChromeCookiePath = @"Cookies";
 static NSString * const SQLMatchString = @"select * from cookies where host_key is '%@' and name is 'user_session' order by last_access_utc desc;";
 static NSString * const SQLLikeString = @"select * from cookies where host_key like '%%%@' and name is 'user_session' order by last_access_utc desc;";
 
-static NSString * const ProfileFolderStartAnchor1 = @"\"profile\":{\"info_cache\":{\"";
-static NSString * const ProfileFolderStartAnchor2 = @"\"info_cache\":{\"";
-static NSString * const ProfileFolderEndAnchor = @"\"last_active_profiles\":[\"";
-static NSString * const ProfileFolderEndAnchor2 = @"\"],\"metrics\"";
 static const NSString *saltString = @"saltysalt";
 static const NSString *IV = @"                ";
 NS_ASSUME_NONNULL_END
@@ -118,42 +116,17 @@ NS_ASSUME_NONNULL_END
 #pragma mark - private
 - (BOOL) checkDatabasePath:(NSString * _Nonnull)path
 {
-	NSFileManager * const fm = [NSFileManager defaultManager];
-	NSString * const localSiteFilePath = [path stringByAppendingString:ChromeLocalSite];
+	NSString * const localStateFilePath = [path stringByAppendingPathComponent:ChromeLocalState];
 	NSError *err = nil;
-	NSString * const localSite = [NSString stringWithContentsOfFile:localSiteFilePath encoding:NSUTF8StringEncoding error:&err];
-	if (!err && localSite) {
-		NSRange searchRange = NSMakeRange(0, localSite.length);
-		NSRange startRange = [localSite rangeOfString:ProfileFolderStartAnchor1 options:(NSLiteralSearch) range:searchRange];
-		if (startRange.location == NSNotFound) {
-			startRange = [localSite rangeOfString:ProfileFolderStartAnchor2 options:(NSLiteralSearch + NSBackwardsSearch) range:searchRange];
-			if (startRange.location == NSNotFound) { return NO; }
-		}// end if anchor1 string is not found
+	NSData * const localStateData = [NSData dataWithContentsOfFile:localStateFilePath];
+	NSDictionary * const localState = [NSJSONSerialization JSONObjectWithData:localStateData options:(NSJSONReadingMutableLeaves) error:&err];
+	NSMutableDictionary *profile = [localState valueForKey:ChromeProfileKey];
+	NSMutableArray<NSString *> *activeProfile = [NSMutableArray arrayWithArray:[profile valueForKey:ChromeActiveProfileKey]];
+	[activeProfile addObject:ChromeCookiePath];
+	cookiePath = [path stringByAppendingPathComponent:[NSString pathWithComponents:activeProfile]];
+	NSFileManager * const fm = [NSFileManager defaultManager];
 
-		NSUInteger startLocation = startRange.location + startRange.length;
-		NSRange endSearchRange = NSMakeRange(startLocation, searchRange.length - startLocation);
-		NSString *tailString = [localSite substringWithRange:endSearchRange];
-		NSRange endRange = [tailString rangeOfString:ProfileFolderEndAnchor options:NSLiteralSearch];
-		NSRange profileFolderRange = NSMakeRange(0, tailString.length);
-		if (endRange.location != NSNotFound) {
-			profileFolderRange.length = endRange.location;
-		} else {
-			endRange = [tailString rangeOfString:ProfileFolderEndAnchor2 options:(NSLiteralSearch)];
-			if (endRange.location != NSNotFound) {
-				profileFolderRange.length = endRange.location;
-			} else {
-				return NO;
-			}// end if found anchor 2 or not
-		}// end if anchor 1 or not
-		
-
-		NSString *profileFolder = [tailString substringWithRange:profileFolderRange];
-		cookiePath = [path stringByAppendingString:[NSString stringWithFormat:ChromeCookiePath, profileFolder]];
-
-		return [fm fileExistsAtPath:cookiePath];
-	}// end if noerror
-	
-	return NO;
+	return [fm fileExistsAtPath:cookiePath];
 }// end - (BOOL) checkDatabasePath:(NSString * _Nonnull)path
 
 - (nonnull NSData *) getChromePassword

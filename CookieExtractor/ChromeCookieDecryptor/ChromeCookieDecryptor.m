@@ -24,8 +24,8 @@ static NSString * const ColumnNamePath = @"path";
 static NSString * const ColumnNameName = @"name";
 static NSString * const ColumnNameValue = @"value";
 static NSString * const ColumnNameEncValue = @"encrypted_value";
-static NSString * const ChromeLocalSite = @"/Local State";
 static NSString * const ChromeCookiePath = @"/%@/Cookies";
+static NSString * const ChromeLocalState = @"Local State";
 static NSString * const SQLMatchString = @"select * from cookies where host_key is '%@' and name is 'user_session' order by last_access_utc desc;";
 static NSString * const SQLLikeString = @"select * from cookies where host_key like '%%%@' and name is 'user_session' order by last_access_utc desc;";
 
@@ -119,7 +119,7 @@ NS_ASSUME_NONNULL_END
 - (BOOL) checkDatabasePath:(NSString * _Nonnull)path
 {
 	NSFileManager * const fm = [NSFileManager defaultManager];
-	NSString * const localSiteFilePath = [path stringByAppendingString:ChromeLocalSite];
+	NSString * const localStateFilePath = [path stringByAppendingPathComponent:ChromeLocalState];
 	NSError *err = nil;
 	NSString * const localSite = [NSString stringWithContentsOfFile:localSiteFilePath encoding:NSUTF8StringEncoding error:&err];
 	if (!err && localSite) {
